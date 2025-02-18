@@ -1,0 +1,238 @@
+Delivered-To: maaz7084@gmail.com
+Received: by 2002:a0c:efcd:0:b0:6d4:1e3a:b573 with SMTP id a13csp168436qvt;
+        Sun, 17 Nov 2024 04:31:52 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHfSj5t6r6KAZw9VJESLSSPYVK8KXWKKQny8gmYujhNGKlj7ND0sTCFDHihZUJhk/O6QN6K
+X-Received: by 2002:a05:6a00:b56:b0:71d:fb29:9f07 with SMTP id d2e1a72fcca58-72476bba9femr11388450b3a.15.1731846712096;
+        Sun, 17 Nov 2024 04:31:52 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1731846712; cv=none;
+        d=google.com; s=arc-20240605;
+        b=LyzqXXCB5xhMS5fMvPwE7n3eEDolBDtHpaglMrLYSWyh6HOQaLOwqxR7y0AaKD0WYo
+         m02yRocshS1/j9XuchTQDkdOVpEJnD+THqBcd6pmWznDjTKo4bz29W14T3sOIAyCCUb7
+         pS8MmWlkFCN4X89Xy9ea3NaJ9JRM5rYQ1POlRaKKWon47ztzz1A8w4c3QmNeqsLSLhoV
+         YeJCu7I28Mr+mZHVmBM7FfwHdzHYQzosSJObNfBWzRKian2jkfqyeR+B2RVs1icEOvz5
+         0eiimuier0RL7FGfNG/bGTfTp9/kW+dtFiuyP+NyQEnbcRxVJuxAw1qe0EFc4H8gslWS
+         0RBg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=feedback-id:content-transfer-encoding:mime-version:from:message-id
+         :subject:to:list-unsubscribe:list-unsubscribe-post:date
+         :dkim-signature:dkim-signature;
+        bh=/EupsNugK//fQVU0Lkdik7TugA1tn3wzazmDX0Sv290=;
+        fh=U9Rz4pipPAoJeLgrrrPsIWfHhvQAq6t+14pWvpoDTmE=;
+        b=SYU0+Dvs9A658CLBTz0wCtdAH5oXVuiZnPQc1k0KGXGXKzHMwlMWb4jmZHjqrNSh51
+         vSgu4UulrH9vQI+GhXGYyps2J7nUQnjknW8AGUOU99oMj5TRVUeoWnaMbRugTSdGivru
+         KGhDYnXLZFrIVGi+x/yJdZfwU5lU/xa5uQvIVr9rjNW27L9u9ytjm3S6Vb9bPStPrSTY
+         aQbroc67ezuvzGsc4z6nYpsds97Zzpv/B3zl/V8p8hauVJJIpe0mvRIwnyjTqi2fES+f
+         p6N+Fdu99oxy/M5h/ts8GqT/8J9zbc3TixR4lmH9TUoyabrUqAIIX3HJCtOG3H0rLtXl
+         ZamA==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@cuvette.tech header.s=bzlhovfwby5owumupawhjqdpyqkz5yt6 header.b="b9cMH/RS";
+       dkim=pass header.i=@amazonses.com header.s=zpkik46mrueu52d3326ufxxchortqmoc header.b=QYExOBgg;
+       spf=pass (google.com: domain of 010901933a1ba66b-d2368ef0-b1eb-4a37-8339-c908d6535c51-000000@ap-south-1.amazonses.com designates 76.223.180.107 as permitted sender) smtp.mailfrom=010901933a1ba66b-d2368ef0-b1eb-4a37-8339-c908d6535c51-000000@ap-south-1.amazonses.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=cuvette.tech
+Return-Path: <010901933a1ba66b-d2368ef0-b1eb-4a37-8339-c908d6535c51-000000@ap-south-1.amazonses.com>
+Received: from c180-107.smtp-out.ap-south-1.amazonses.com (c180-107.smtp-out.ap-south-1.amazonses.com. [76.223.180.107])
+        by mx.google.com with ESMTPS id 41be03b00d2f7-7f8c1c0f901si6393552a12.165.2024.11.17.04.31.51
+        for <maaz7084@gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 17 Nov 2024 04:31:52 -0800 (PST)
+Received-SPF: pass (google.com: domain of 010901933a1ba66b-d2368ef0-b1eb-4a37-8339-c908d6535c51-000000@ap-south-1.amazonses.com designates 76.223.180.107 as permitted sender) client-ip=76.223.180.107;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@cuvette.tech header.s=bzlhovfwby5owumupawhjqdpyqkz5yt6 header.b="b9cMH/RS";
+       dkim=pass header.i=@amazonses.com header.s=zpkik46mrueu52d3326ufxxchortqmoc header.b=QYExOBgg;
+       spf=pass (google.com: domain of 010901933a1ba66b-d2368ef0-b1eb-4a37-8339-c908d6535c51-000000@ap-south-1.amazonses.com designates 76.223.180.107 as permitted sender) smtp.mailfrom=010901933a1ba66b-d2368ef0-b1eb-4a37-8339-c908d6535c51-000000@ap-south-1.amazonses.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=cuvette.tech
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=bzlhovfwby5owumupawhjqdpyqkz5yt6; d=cuvette.tech; t=1731846710;
+	h=Date:List-Unsubscribe-Post:List-Unsubscribe:To:Subject:Message-Id:From:Mime-Version:Content-Type:Content-Transfer-Encoding;
+	bh=4SnSFLTciazdXAh0p9SrOkaS+EbnkXZAhn08FIIGTHA=;
+	b=b9cMH/RSTopny9OREKT4bhG+VV6myI/fofFtwt61LqjNYJIRQeiOruRqAzaYjB74
+	jPWOjKLR5SQVrqjk/fwuxy0oZTbB094YMmCE2uggw2XPduTj/OJQ/JJINA9vTBhv+OH
+	nzsNHeyBlNVYlOf9ceJGXzckQE0ELFecKJJpDbOuWUdbu0jWUmHfyI3i4MoXietXJyw
+	T472luMlR7u3Qf4c2m81IYFCGry4ROh9Z0EkDTl8qesnJlesnqlA5IcPlkhna8EYPk/
+	gWbXetPu8beR3rztfBn1KjBEdBLcVQgAJMX4Oa4eSnwNW5ei02B02Mc00c3nCopKfHI
+	k8bIlqrPrg==
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=zpkik46mrueu52d3326ufxxchortqmoc; d=amazonses.com; t=1731846710;
+	h=Date:List-Unsubscribe-Post:List-Unsubscribe:To:Subject:Message-Id:From:Mime-Version:Content-Type:Content-Transfer-Encoding:Feedback-ID;
+	bh=4SnSFLTciazdXAh0p9SrOkaS+EbnkXZAhn08FIIGTHA=;
+	b=QYExOBggQLTJGb/kpKmAoykWQkuf6WIt/O6w5p9Ebs/+Ye9j6+/jZrq3CjRW0mJd
+	yMy1azzn2qQshbojl1GIwuoVcN7Lt+idGL0w0s7iSQ+nEdR/ZKKYZGxzsxaVOfh4w1c
+	Nk+nNecLqjMPR1iUq9PsqsPll446WLolT9/AdelE=
+Date: Sun, 17 Nov 2024 12:31:50 +0000
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
+X-Listmonk-Subscriber: 70530dae-8bb6-4307-8081-c07e1f5feb91
+List-Unsubscribe: <https://listmonk.cuvette.tech/subscription/fbfee4d5-05cc-425c-82f4-b79f579fec3f/70530dae-8bb6-4307-8081-c07e1f5feb91>
+To: maaz7084@gmail.com
+Subject: =?UTF-8?q?=E2=82=B9_8_LPA_-_=E2=82=B9_12_LPA_|_Amazon_is_hiring_Support_E?= =?UTF-8?q?ngineers?=
+Message-ID: <010901933a1ba66b-d2368ef0-b1eb-4a37-8339-c908d6535c51-000000@ap-south-1.amazonses.com>
+From: Cuvette Tech <team@cuvette.tech>
+Mime-Version: 1.0
+X-Listmonk-Campaign: fbfee4d5-05cc-425c-82f4-b79f579fec3f
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Feedback-ID: ::1.ap-south-1.9qxlDFiy8e+UAJl+jIna7rYCmgDIVHlc1O9DJEJuJKk=:AmazonSES
+X-SES-Outgoing: 2024.11.17-76.223.180.107
+
+<!doctype html>
+<html>
+    <head>
+        <title>=E2=82=B9 8 LPA - =E2=82=B9 12 LPA | Amazon is hiring Suppor=
+t Engineers</title>
+        <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Du=
+tf-8">
+        <meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-sc=
+ale=3D1, minimum-scale=3D1">
+        <base target=3D"_blank">
+        <style>
+            body {
+                font-family: 'Helvetica Neue', 'Segoe UI', Helvetica, sans-=
+serif;
+                font-size: 15px;
+                line-height: 26px;
+                margin: 0;
+                color: #444;
+            }
+
+            pre {
+                background: #f4f4f4f4;
+                padding: 2px;
+            }
+
+            table {
+                width: 100%;
+                border: 1px solid #ddd;
+            }
+            table td {
+                border-color: #ddd;
+                padding: 5px;
+            }
+
+            .wrap {
+                background-color: #fff;
+                padding: 30px;
+                max-width: 525px;
+                margin: 0 auto;
+                border-radius: 5px;
+            }
+
+            .button {
+                background: #0055d4;
+                border-radius: 3px;
+                text-decoration: none !important;
+                color: #fff !important;
+                font-weight: bold;
+                padding: 10px 30px;
+                display: inline-block;
+            }
+            .button:hover {
+                background: #111;
+            }
+
+            .footer {
+                text-align: center;
+                font-size: 12px;
+                color: #888;
+            }
+                .footer a {
+                    color: #888;
+                    margin-right: 5px;
+                }
+
+            .gutter {
+                padding: 30px;
+            }
+
+            img {
+                max-width: 100%;
+                height: auto;
+            }
+
+            a {
+                color: #0055d4;
+            }
+                a:hover {
+                    color: #111;
+                }
+            @media screen and (max-width: 600px) {
+                .wrap {
+                    max-width: auto;
+                }
+                .gutter {
+                    padding: 10px;
+                }
+            }
+        </style>
+    </head>
+<body style=3D"font-family: 'Helvetica Neue', 'Segoe UI', Helvetica, sans-s=
+erif;font-size: 15px;margin: 0;color: #444;">
+<a href=3D"https://listmonk.cuvette.tech/link/053f9320-fcc6-4ad5-a4e6-92002=
+84198c4/fbfee4d5-05cc-425c-82f4-b79f579fec3f/70530dae-8bb6-4307-8081-c07e1f=
+5feb91" target=3D"_blank" style=3D"text-decoration:none;color:black">
+    <div align=3Dcenter><img src=3D"https://production-cuvette.s3.ap-south-=
+1.amazonaws.com/cuvette+wordmark.png" alt=3D"Cuvette Tech" width=3D "150" /=
+></div>
+    </a>
+    <div style=3D"padding: 0px;margin: 0 auto;border-radius: 5px;margin-top=
+:10">
+        <p style=3D"text-align: justify;">
+Dear Student, <br /><a style=3D"text-decoration: none; color: black;" href=
+=3D"https://listmonk.cuvette.tech/link/ba8d98ab-3923-4292-addd-ec9c3f7c004b=
+/fbfee4d5-05cc-425c-82f4-b79f579fec3f/70530dae-8bb6-4307-8081-c07e1f5feb91"=
+ target=3D"_blank" rel=3D"noopener"> <br />
+We have carefully created a list of companies that are actively hiring for =
+Freshers in OFF-Campus mode.=20
+These opportunities are from the official career pages of the respective co=
+mpanies.<br /><br /><strong>Job Openings Apply Links </strong>-&gt;=20
+</a> <span style=3D"color: black;"><strong> <a style=3D"color: #0c1ef1;" hr=
+ef=3D"https://listmonk.cuvette.tech/link/ba8d98ab-3923-4292-addd-ec9c3f7c00=
+4b/fbfee4d5-05cc-425c-82f4-b79f579fec3f/70530dae-8bb6-4307-8081-c07e1f5feb9=
+1" target=3D"_blank" rel=3D"noopener" data-saferedirecturl=3D"https://www.g=
+oogle.com/url?q=3Dhttps://listmonk.cuvette.tech/link/ba8d98ab-3923-4292-add=
+d-ec9c3f7c004b/c30bef3c-d71e-4897-983a-e45c8203d575/76ad5e63-52af-41b8-908e=
+-e5f19c765437&amp;source=3Dgmail&amp;ust=3D1707735735211000&amp;usg=3DAOvVa=
+w2Wt1TpS1qHdId2V6gX8UXu">https://cuvette.tech/app/<wbr />dashboard/other-jo=
+bs</a></strong></span></p>
+
+<p style=3D"text-align: justify;"><a style=3D"text-decoration: none; color:=
+ black;" href=3D"https://listmonk.cuvette.tech/link/ba8d98ab-3923-4292-addd=
+-ec9c3f7c004b/fbfee4d5-05cc-425c-82f4-b79f579fec3f/70530dae-8bb6-4307-8081-=
+c07e1f5feb91" target=3D"_blank" rel=3D"noopener">=20
+Company: <strong>Amazon</strong><br />
+Job Role: <strong>Support Engineer</strong><br />
+Location: <strong>Bangalore</strong><br />
+Salary: <strong>Rs. 8 LPA - Rs. 12 LPA</strong><br />
+Experience: <strong>0 - 1 Years</strong><br />
+</a> </p>
+
+<p><a style=3D"text-decoration: none; color: black;" href=3D"https://listmo=
+nk.cuvette.tech/link/053f9320-fcc6-4ad5-a4e6-9200284198c4/fbfee4d5-05cc-425=
+c-82f4-b79f579fec3f/70530dae-8bb6-4307-8081-c07e1f5feb91" target=3D"_blank"=
+ rel=3D"noopener">-&gt; If you are also looking for jobs, join our Placemen=
+t Guaranteed Course designed by top IITians and Senior developers &amp; get=
+ a Job guarantee of CTC upto 25 LPA - </a><strong><a style=3D"color: #0c1ef=
+1;" href=3D"https://listmonk.cuvette.tech/link/7d0d968d-10e0-48fe-9f9e-c777=
+4ba7ea30/fbfee4d5-05cc-425c-82f4-b79f579fec3f/70530dae-8bb6-4307-8081-c07e1=
+f5feb91">https://cuvette.tech/placement-guarantee-program/</a></strong></p>
+<p style=3D"text-align: justify;">Best Wishes,<br />Team Cuvette</p>
+<p style=3D"text-align: center;"><br /><br /><span style=3D"font-size: 12px=
+;"><em><span style=3D"font-size: 14px;"><span style=3D"color: #101fec;">We =
+are trusted by 2 Miliion+ Students and 7500+ Partner Companies</span></span=
+></em></span><br /><span style=3D"font-size: 14px;">You are receiving this =
+email as a member of the Cuvette Tech community</span></p>
+    </div>
+   =20
+    <div class=3D"footer" style=3D"text-align: center;font-size: 15px;color=
+: #888;">
+        <p>
+            Don&#39;t want to receive these e-mails?
+            <a href=3D"https://listmonk.cuvette.tech/subscription/fbfee4d5-=
+05cc-425c-82f4-b79f579fec3f/70530dae-8bb6-4307-8081-c07e1f5feb91" style=3D"=
+color: #3737FF;"> <strong>Unsubscribe</strong></a>
+        </p>
+    </div>
+    <div class=3D"gutter" style=3D"padding: 10px;">&nbsp;<img src=3D"https:=
+//listmonk.cuvette.tech/campaign/fbfee4d5-05cc-425c-82f4-b79f579fec3f/70530=
+dae-8bb6-4307-8081-c07e1f5feb91/px.png" alt=3D"" /></div>
+</body>
+</html>

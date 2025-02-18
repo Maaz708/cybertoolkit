@@ -1,0 +1,56 @@
+{
+    "signatures": [
+        {
+            "hash": "44d88612fea8a8f36de82e1278abb02f",
+            "type": "EICAR Test File",
+            "description": "Standard antivirus test file"
+        },
+        {
+            "hash": "275a021bbfb6489e54d471899f7db9d1663fc695ec2fe2a2c4538aabf651fd0f",
+            "type": "Generic Malware",
+            "description": "Known malicious file signature"
+        },
+        {
+            "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "type": "Suspicious File",
+            "description": "Empty file (potential data wiping)"
+        },
+        {
+            "hash": "65928d03cdf37fedd7c99c33240cd196",
+            "type": "Potential Malware",
+            "description": "Known suspicious PDF dropper"
+        },
+        {
+            "hash": "3cafc90272e634fc09d413abac2d248251966367",
+            "type": "Suspicious Archive",
+            "description": "Known malicious ZIP container"
+        }
+    ],
+    "patterns": [
+        {
+            "pattern": "X5O!P%@AP\\[4\\\\PZX54\\(P\\^\\)7CC\\)7\\}\\$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!\\$H\\+H\\*",
+            "type": "EICAR String",
+            "description": "EICAR test file content"
+        },
+        {
+            "pattern": "\\x90{15,}",
+            "type": "NOP Sled",
+            "description": "Potential shellcode indicator"
+        },
+        {
+            "pattern": "eval\\([^)]*\\)",
+            "type": "Suspicious JS",
+            "description": "Potential malicious JavaScript"
+        },
+        {
+            "pattern": "(?:exec|system|shell_exec)\\s*\\(",
+            "type": "Suspicious PHP",
+            "description": "Potential malicious PHP code"
+        },
+        {
+            "pattern": "powershell\\s+-[^\\s]*(enc|encoded|command|nop)",
+            "type": "Suspicious PowerShell",
+            "description": "Potential malicious PowerShell command"
+        }
+    ]
+}

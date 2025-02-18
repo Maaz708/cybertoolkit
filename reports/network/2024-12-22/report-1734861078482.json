@@ -1,0 +1,406 @@
+{
+  "timestamp": "2024-12-22T09:51:18.481Z",
+  "networkStats": {
+    "bandwidth": {
+      "totalRxBytes": 46165830,
+      "totalTxBytes": 36492071,
+      "peakRxSpeed": 3761.3143211407314,
+      "peakTxSpeed": 5986.98078115313,
+      "averageRxSpeed": 1880.6571605703657,
+      "averageTxSpeed": 2993.490390576565,
+      "timestamp": "2024-12-22T09:51:18.481Z"
+    },
+    "protocols": {
+      "PROTO": 1,
+      "TCP": 116,
+      "UDP": 72
+    },
+    "activeConnections": 189,
+    "interfaceStatus": [
+      {
+        "name": "vEthernet (WSL (Hyper-V firewall))",
+        "status": "down",
+        "speed": null,
+        "type": "",
+        "lastChecked": "2024-12-22T09:51:18.481Z"
+      },
+      {
+        "name": "Wi-Fi",
+        "status": "up",
+        "speed": 72.2,
+        "type": "wireless",
+        "lastChecked": "2024-12-22T09:51:18.481Z"
+      },
+      {
+        "name": "Loopback Pseudo-Interface 1",
+        "status": "down",
+        "speed": null,
+        "type": "",
+        "lastChecked": "2024-12-22T09:51:18.481Z"
+      },
+      {
+        "name": "Local Area Connection",
+        "status": "down",
+        "speed": 0,
+        "type": "wired",
+        "lastChecked": "2024-12-22T09:51:18.481Z"
+      },
+      {
+        "name": "Ethernet",
+        "status": "down",
+        "speed": 0,
+        "type": "wired",
+        "lastChecked": "2024-12-22T09:51:18.481Z"
+      },
+      {
+        "name": "Bluetooth Network Connection",
+        "status": "down",
+        "speed": 0,
+        "type": "wired",
+        "lastChecked": "2024-12-22T09:51:18.481Z"
+      }
+    ]
+  },
+  "securityMetrics": {
+    "exposedPorts": [
+      {
+        "port": "22",
+        "service": "SSH",
+        "process": "sshd.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "135",
+        "service": "Unknown",
+        "process": "svchost.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "445",
+        "service": "SMB",
+        "process": "System",
+        "state": "LISTEN",
+        "risk": "high",
+        "protocol": "TCP"
+      },
+      {
+        "port": "623",
+        "service": "Unknown",
+        "process": "LMS.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "2869",
+        "service": "Unknown",
+        "process": "System",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "3000",
+        "service": "Unknown",
+        "process": "node.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "5040",
+        "service": "Unknown",
+        "process": "svchost.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "5173",
+        "service": "Unknown",
+        "process": "node.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "7070",
+        "service": "Unknown",
+        "process": "AnyDesk.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "16992",
+        "service": "Unknown",
+        "process": "LMS.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "28451",
+        "service": "Unknown",
+        "process": "MonectServerService.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "28459",
+        "service": "Unknown",
+        "process": "MonectServerService.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "49664",
+        "service": "Unknown",
+        "process": "lsass.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "49665",
+        "service": "Unknown",
+        "process": "wininit.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "49666",
+        "service": "Unknown",
+        "process": "svchost.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "49667",
+        "service": "Unknown",
+        "process": "svchost.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "49668",
+        "service": "Unknown",
+        "process": "spoolsv.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "49725",
+        "service": "Unknown",
+        "process": "services.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "1266",
+        "service": "Unknown",
+        "process": "jetbrains-toolbox.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "27017",
+        "service": "Unknown",
+        "process": "mongod.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "29338",
+        "service": "Unknown",
+        "process": "Cursor.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "52829",
+        "service": "Unknown",
+        "process": "jetbrains-toolbox.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "139",
+        "service": "Unknown",
+        "process": "System",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "139",
+        "service": "Unknown",
+        "process": "System",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "22",
+        "service": "SSH",
+        "process": "sshd.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "135",
+        "service": "Unknown",
+        "process": "svchost.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "445",
+        "service": "SMB",
+        "process": "System",
+        "state": "LISTEN",
+        "risk": "high",
+        "protocol": "TCP"
+      },
+      {
+        "port": "623",
+        "service": "Unknown",
+        "process": "LMS.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "2869",
+        "service": "Unknown",
+        "process": "System",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "3000",
+        "service": "Unknown",
+        "process": "node.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "5173",
+        "service": "Unknown",
+        "process": "node.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "7070",
+        "service": "Unknown",
+        "process": "AnyDesk.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "16992",
+        "service": "Unknown",
+        "process": "LMS.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "49664",
+        "service": "Unknown",
+        "process": "lsass.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "49665",
+        "service": "Unknown",
+        "process": "wininit.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "49666",
+        "service": "Unknown",
+        "process": "svchost.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "49667",
+        "service": "Unknown",
+        "process": "svchost.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "49668",
+        "service": "Unknown",
+        "process": "spoolsv.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "49725",
+        "service": "Unknown",
+        "process": "services.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "24642",
+        "service": "Unknown",
+        "process": "Canva.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      }
+    ],
+    "suspiciousConnections": 1,
+    "riskAssessment": {
+      "score": 100,
+      "level": "high",
+      "timestamp": "2024-12-22T09:51:18.481Z"
+    }
+  },
+  "trafficAnalysis": {
+    "timeSeriesData": [
+      {
+        "timestamp": "2024-12-22T09:51:18.481Z",
+        "rx_mbps": "0.00",
+        "tx_mbps": "0.01"
+      }
+    ],
+    "trafficSpikes": [],
+    "unusualPatterns": []
+  },
+  "alerts": []
+}

@@ -1,0 +1,175 @@
+from typing import Optional, Any, Dict, TypedDict, List
+from pydantic import BaseModel, Field, validator
+from datetime import datetime
+
+
+# Type definitions for dictionary structures
+class ArticleDict(TypedDict, total=False):
+    """TypedDict for raw article data from database"""
+    _id: Any
+    id: Any
+    url: str
+    dataType: str
+    label: bool
+    isCredible: bool
+    isPhishing: bool
+    title: Optional[str]
+    content: Optional[str]
+    source: Optional[str]
+    author: Optional[str]
+    publishedDate: Optional[str]
+    language: Optional[str]
+    category: Optional[str]
+    isGovernmentRelated: bool
+    metadata: Dict[str, Any]
+
+class DisplayDict(TypedDict, total=False):
+    """TypedDict for display-friendly article data"""
+    url: str
+    dataType: str
+    label: bool
+    isPhishing: bool
+    isCredible: bool
+    title: Optional[str]
+    source: Optional[str]
+    date: Optional[str]
+    language: Optional[str]
+    category: Optional[str]
+
+class Article(BaseModel):
+    """
+    A flexible article schema that can handle different types of datasets
+    while maintaining compatibility with the Newsful application.
+    """
+    # Required fields with flexible types
+    id: Any = Field(..., description="Unique identifier for the article")
+    url: Optional[str] = Field(None, description="URL of the article")
+    
+    dataType: str = Field(..., description="Type of data (text, image, video, etc.)")
+    
+    # Core fact-checking fields
+    label: bool = Field(..., description="True if article is factual, False if not")
+    isCredible: bool = Field(..., description="Credibility score of the source")
+    isPhishing: bool = Field(False, description="Whether the URL is a phishing attempt")
+    
+    # Optional metadata fields with flexible types
+    title: Optional[str] = Field(None, description="Article title")
+    content: Optional[str] = Field(None, description="Article content")
+    source: Optional[str] = Field(None, description="Source of the article")
+    author: Optional[str] = Field(None, description="Author of the article")
+    publishedDate: Optional[datetime] = Field(None, description="Publication date")
+    language: Optional[str] = Field(None, description="Article language")
+    category: Optional[str] = Field(None, description="Article category")
+    
+    # Custom fields for government-related classification
+    isGovernmentRelated: bool = Field(False, description="Whether article is government-related")
+    
+    # Additional metadata that might vary by dataset
+    metadata: Dict[str, Any] = Field(default_factory=dict, description="Additional metadata")
+    
+    @validator("publishedDate", pre=True)
+    def parse_datetime(cls, value):
+        """Convert various datetime formats to datetime object"""
+        if isinstance(value, datetime):
+            return value
+        if isinstance(value, str):
+            try:
+                # Try different datetime formats
+                for fmt in [
+                    "%Y-%m-%dT%H:%M:%S.%fZ",  # ISO format
+                    "%Y-%m-%d %H:%M:%S",      # Standard format
+                    "%Y-%m-%d",               # Date only
+                    "%d/%m/%Y",               # Common date format
+                ]:
+                    try:
+                        return datetime.strptime(value, fmt)
+                    except ValueError:
+                        continue
+            except ValueError:
+                pass
+        return None
+
+    def display_dict(self) -> DisplayDict:
+        """
+        Convert article to a display-friendly dictionary format
+        for the Streamlit dashboard
+        """
+        display_data: DisplayDict = {
+            "url": self.url,
+            "dataType": self.dataType,
+            "label": self.label,
+            "isPhishing": self.isPhishing,
+            "isCredible": self.isCredible,
+        }
+        
+        # Add optional fields if they exist
+        if self.title:
+            display_data["title"] = self.title
+        if self.source:
+            display_data["source"] = self.source
+        if self.publishedDate:
+            display_data["date"] = self.publishedDate.strftime("%Y-%m-%d")
+        if self.language:
+            display_data["language"] = self.language
+        if self.category:
+            display_data["category"] = self.category
+            
+        # Add any custom metadata fields that might be useful for display
+        for key, value in self.metadata.items():
+            if key not in display_data and isinstance(value, (str, int, float, bool)):
+                display_data[key] = value  # type: ignore
+                
+        return display_data
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "Article":
+        """
+        Create an Article instance from a dictionary, handling different data formats
+        and field names that might come from different datasets
+        """
+        # Map common alternative field names to our schema
+        field_mapping = {
+            "id": ["_id", "article_id", "uid"],
+            "url": ["link", "article_url", "web_url"],
+            "label": ["label"],
+            "title": ["headline", "article_title"],
+            "content": ["text", "article_content", "body"],
+            "source": ["publisher", "news_source"],
+            "author": ["writer", "byline"],
+            "publishedDate": ["date", "published_date", "timestamp"],
+            "language": ["lang", "article_language"],
+            "category": ["topic", "section"],
+        }
+        
+        normalized_data = {}
+        
+        # Process known fields with potential alternate names
+        for target_field, alternate_names in field_mapping.items():
+            for name in [target_field] + alternate_names:
+                if name in data:
+                    if target_field == "label":
+                        if isinstance(data[name], str):
+                         normalized_data[target_field] = data[name].strip().lower() == "true"
+                        else:
+                         normalized_data[target_field] = bool(data[name])
+                    else:
+                        normalized_data[target_field] = data[name]
+                    break
+        
+        # Handle required fields with defaults if missing
+        normalized_data.setdefault("dataType", "text")
+        normalized_data.setdefault("label", False)
+        normalized_data.setdefault("isCredible", False)
+        normalized_data.setdefault("isPhishing", False)
+        normalized_data.setdefault("isGovernmentRelated", False)
+        
+        if 'url' not in normalized_data:
+           normalized_data['url'] = None 
+        # Store any additional fields in metadata
+        metadata = {}
+        for key, value in data.items():
+            if key not in normalized_data and key not in [name for names in field_mapping.values() for name in names]:
+                metadata[key] = value
+        normalized_data["metadata"] = metadata
+        
+        return cls(**normalized_data)
