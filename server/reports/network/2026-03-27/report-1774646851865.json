@@ -1,0 +1,648 @@
+{
+  "timestamp": "2026-03-27T21:27:31.864Z",
+  "networkStats": {
+    "bandwidth": {
+      "totalRxBytes": 523160091,
+      "totalTxBytes": 16860503,
+      "peakRxSpeed": 827.4010241039091,
+      "peakTxSpeed": 3051.3300861745975,
+      "averageRxSpeed": 413.70051205195455,
+      "averageTxSpeed": 1525.6650430872987,
+      "timestamp": "2026-03-27T21:27:31.864Z"
+    },
+    "protocols": {
+      "PROTO": 1,
+      "TCP": 394,
+      "UDP": 71
+    },
+    "activeConnections": 466,
+    "interfaceStatus": [
+      {
+        "name": "Wi-Fi",
+        "status": "up",
+        "speed": 72.2,
+        "type": "wireless",
+        "lastChecked": "2026-03-27T21:27:31.864Z"
+      },
+      {
+        "name": "Loopback Pseudo-Interface 1",
+        "status": "down",
+        "speed": null,
+        "type": "",
+        "lastChecked": "2026-03-27T21:27:31.864Z"
+      },
+      {
+        "name": "Ethernet",
+        "status": "down",
+        "speed": 0,
+        "type": "wired",
+        "lastChecked": "2026-03-27T21:27:31.864Z"
+      },
+      {
+        "name": "Bluetooth Network Connection",
+        "status": "down",
+        "speed": 0,
+        "type": "wired",
+        "lastChecked": "2026-03-27T21:27:31.864Z"
+      }
+    ]
+  },
+  "securityMetrics": {
+    "exposedPorts": [
+      {
+        "port": "135",
+        "service": "Unknown",
+        "process": "svchost.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "445",
+        "service": "SMB",
+        "process": "System",
+        "state": "LISTEN",
+        "risk": "high",
+        "protocol": "TCP"
+      },
+      {
+        "port": "3000",
+        "service": "Unknown",
+        "process": "node.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "5040",
+        "service": "Unknown",
+        "process": "svchost.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "5173",
+        "service": "Unknown",
+        "process": "node.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "5357",
+        "service": "Unknown",
+        "process": "System",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "5432",
+        "service": "PostgreSQL",
+        "process": "postgres.exe",
+        "state": "LISTEN",
+        "risk": "high",
+        "protocol": "TCP"
+      },
+      {
+        "port": "6881",
+        "service": "Unknown",
+        "process": "utweb.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "19575",
+        "service": "Unknown",
+        "process": "utweb.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "19576",
+        "service": "Unknown",
+        "process": "utweb.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "19577",
+        "service": "Unknown",
+        "process": "utweb.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "49664",
+        "service": "Unknown",
+        "process": "lsass.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "49665",
+        "service": "Unknown",
+        "process": "wininit.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "49666",
+        "service": "Unknown",
+        "process": "svchost.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "49669",
+        "service": "Unknown",
+        "process": "svchost.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "49670",
+        "service": "Unknown",
+        "process": "spoolsv.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "49681",
+        "service": "Unknown",
+        "process": "services.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "49682",
+        "service": "Unknown",
+        "process": "GlideXService.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "49683",
+        "service": "Unknown",
+        "process": "GlideXNearService.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "49684",
+        "service": "Unknown",
+        "process": "GlideXService.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "49685",
+        "service": "Unknown",
+        "process": "GlideXNearService.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "49687",
+        "service": "Unknown",
+        "process": "GlideXService.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "49688",
+        "service": "Unknown",
+        "process": "GlideXNearService.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "49689",
+        "service": "Unknown",
+        "process": "GlideXService.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "49690",
+        "service": "Unknown",
+        "process": "GlideXService.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "49691",
+        "service": "Unknown",
+        "process": "GlideXService.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "50562",
+        "service": "Unknown",
+        "process": "nearby_share.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "139",
+        "service": "Unknown",
+        "process": "System",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "8888",
+        "service": "Unknown",
+        "process": "python.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "8889",
+        "service": "Unknown",
+        "process": "python.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "8890",
+        "service": "Unknown",
+        "process": "python.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "11434",
+        "service": "Unknown",
+        "process": "ollama.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "24830",
+        "service": "Unknown",
+        "process": "AsusSoftwareManager.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "27060",
+        "service": "Unknown",
+        "process": "steam.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "52027",
+        "service": "Unknown",
+        "process": "helper.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "53686",
+        "service": "Unknown",
+        "process": "python.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "53687",
+        "service": "Unknown",
+        "process": "python.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "53688",
+        "service": "Unknown",
+        "process": "python.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "53689",
+        "service": "Unknown",
+        "process": "python.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "53690",
+        "service": "Unknown",
+        "process": "python.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "53713",
+        "service": "Unknown",
+        "process": "steam.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "53717",
+        "service": "Unknown",
+        "process": "steam.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "55168",
+        "service": "Unknown",
+        "process": "cceventapp.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "58807",
+        "service": "Unknown",
+        "process": "language_server_windows_x64.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "59622",
+        "service": "Unknown",
+        "process": "Windsurf.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "59623",
+        "service": "Unknown",
+        "process": "language_server_windows_x64.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "59740",
+        "service": "Unknown",
+        "process": "ollama app.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "60414",
+        "service": "Unknown",
+        "process": "python.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "63180",
+        "service": "Unknown",
+        "process": "helper.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "64111",
+        "service": "Unknown",
+        "process": "python.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "135",
+        "service": "Unknown",
+        "process": "svchost.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "445",
+        "service": "SMB",
+        "process": "System",
+        "state": "LISTEN",
+        "risk": "high",
+        "protocol": "TCP"
+      },
+      {
+        "port": "3000",
+        "service": "Unknown",
+        "process": "node.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "5173",
+        "service": "Unknown",
+        "process": "node.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "5357",
+        "service": "Unknown",
+        "process": "System",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "5432",
+        "service": "PostgreSQL",
+        "process": "postgres.exe",
+        "state": "LISTEN",
+        "risk": "high",
+        "protocol": "TCP"
+      },
+      {
+        "port": "49664",
+        "service": "Unknown",
+        "process": "lsass.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "49665",
+        "service": "Unknown",
+        "process": "wininit.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "49666",
+        "service": "Unknown",
+        "process": "svchost.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "49669",
+        "service": "Unknown",
+        "process": "svchost.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "49670",
+        "service": "Unknown",
+        "process": "spoolsv.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "49681",
+        "service": "Unknown",
+        "process": "services.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "50562",
+        "service": "Unknown",
+        "process": "nearby_share.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "8888",
+        "service": "Unknown",
+        "process": "python.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "8889",
+        "service": "Unknown",
+        "process": "python.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "8890",
+        "service": "Unknown",
+        "process": "python.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "24642",
+        "service": "Unknown",
+        "process": "Canva.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "42050",
+        "service": "Unknown",
+        "process": "OneDrive.Sync.Service.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "49673",
+        "service": "Unknown",
+        "process": "jhi_service.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "6881",
+        "service": "Unknown",
+        "process": "utweb.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "6881",
+        "service": "Unknown",
+        "process": "utweb.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      },
+      {
+        "port": "6881",
+        "service": "Unknown",
+        "process": "utweb.exe",
+        "state": "LISTEN",
+        "risk": "medium",
+        "protocol": "TCP"
+      }
+    ],
+    "suspiciousConnections": 5,
+    "riskAssessment": {
+      "score": 100,
+      "level": "high",
+      "timestamp": "2026-03-27T21:27:31.864Z"
+    }
+  },
+  "trafficAnalysis": {
+    "timeSeriesData": [
+      {
+        "timestamp": "2026-03-27T21:27:31.864Z",
+        "rx_mbps": "0.00",
+        "tx_mbps": "0.00"
+      }
+    ],
+    "trafficSpikes": [],
+    "unusualPatterns": []
+  },
+  "alerts": []
+}

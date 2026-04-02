@@ -1,0 +1,11 @@
+2026-04-02 13:38:03 [[31merror[39m]: TypeError: mode must be int32 or null/undefined
+    at Object.copyFile (node:internal/fs/promises:624:13)
+    at C:\Users\maaz7\cybertoolkit\server\index.js:323:10
+    at new Promise (<anonymous>)
+    at C:\Users\maaz7\cybertoolkit\server\index.js:322:11
+    at Layer.handle [as handle_request] (C:\Users\maaz7\cybertoolkit\node_modules\express\lib\router\layer.js:95:5)
+    at next (C:\Users\maaz7\cybertoolkit\node_modules\express\lib\router\route.js:149:13)
+    at done (C:\Users\maaz7\cybertoolkit\node_modules\multer\lib\make-middleware.js:45:7)
+    at indicateDone (C:\Users\maaz7\cybertoolkit\node_modules\multer\lib\make-middleware.js:49:68)
+    at C:\Users\maaz7\cybertoolkit\node_modules\multer\lib\make-middleware.js:155:11
+    at WriteStream.<anonymous> (C:\Users\maaz7\cybertoolkit\node_modules\multer\storage\disk.js:43:9)

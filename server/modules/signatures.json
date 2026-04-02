@@ -1,56 +1,252 @@
 {
-    "signatures": [
-        {
-            "hash": "44d88612fea8a8f36de82e1278abb02f",
-            "type": "EICAR Test File",
-            "description": "Standard antivirus test file"
-        },
-        {
-            "hash": "275a021bbfb6489e54d471899f7db9d1663fc695ec2fe2a2c4538aabf651fd0f",
-            "type": "Generic Malware",
-            "description": "Known malicious file signature"
-        },
-        {
-            "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-            "type": "Suspicious File",
-            "description": "Empty file (potential data wiping)"
-        },
-        {
-            "hash": "65928d03cdf37fedd7c99c33240cd196",
-            "type": "Potential Malware",
-            "description": "Known suspicious PDF dropper"
-        },
-        {
-            "hash": "3cafc90272e634fc09d413abac2d248251966367",
-            "type": "Suspicious Archive",
-            "description": "Known malicious ZIP container"
-        }
+  "signatures": [
+    {
+      "hash": "44d88612fea8a8f36de82e1278abb02f",
+      "algorithm": "md5",
+      "type": "EICAR Test File",
+      "description": "Standard antivirus test file",
+      "severity": "low",
+      "category": "test",
+      "family": "EICAR",
+      "first_seen": "2003-01-01",
+      "last_updated": "2026-01-01"
+    },
+    {
+      "hash": "275a021bbfb6489e54d471899f7db9d1663fc695ec2fe2a2c4538aabf651fd0f",
+      "algorithm": "sha256",
+      "type": "Generic Trojan",
+      "description": "Known malicious trojan file",
+      "severity": "critical",
+      "category": "trojan",
+      "family": "Generic",
+      "first_seen": "2024-06-12",
+      "last_updated": "2026-01-01"
+    },
+    {
+      "hash": "3cafc90272e634fc09d413abac2d248251966367",
+      "algorithm": "sha1",
+      "type": "Malicious Archive",
+      "description": "Suspicious nested archive",
+      "severity": "high",
+      "category": "archive",
+      "family": "ZipDrop",
+      "first_seen": "2025-03-10",
+      "last_updated": "2026-01-01"
+    },
+    {
+      "hash": "65928d03cdf37fedd7c99c33240cd196",
+      "algorithm": "md5",
+      "type": "PDF Dropper",
+      "description": "Malicious PDF with embedded payload",
+      "severity": "high",
+      "category": "dropper",
+      "family": "PDFDrop",
+      "first_seen": "2024-09-15",
+      "last_updated": "2026-01-01"
+    },
+    {
+      "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "algorithm": "sha256",
+      "type": "Empty File",
+      "description": "Potential wipe artifact",
+      "severity": "medium",
+      "category": "anomaly",
+      "family": "NullFile",
+      "first_seen": "2023-01-01",
+      "last_updated": "2026-01-01"
+    },
+    {
+      "hash": "9e107d9d372bb6826bd81d3542a419d6",
+      "algorithm": "md5",
+      "type": "Suspicious Binary",
+      "description": "Generic suspicious executable",
+      "severity": "high",
+      "category": "trojan",
+      "family": "GenericBin",
+      "first_seen": "2025-01-20",
+      "last_updated": "2026-01-01"
+    },
+    {
+      "hash": "ad0234829205b9033196ba818f7a872b",
+      "algorithm": "md5",
+      "type": "Backdoor",
+      "description": "Backdoor access malware",
+      "severity": "critical",
+      "category": "backdoor",
+      "family": "BackdoorX",
+      "first_seen": "2024-11-05",
+      "last_updated": "2026-01-01"
+    },
+    {
+      "hash": "8ad8757baa8564dc136c1e07507f4a98",
+      "algorithm": "md5",
+      "type": "Ransomware Sample",
+      "description": "File encryption malware",
+      "severity": "critical",
+      "category": "ransomware",
+      "family": "CryptoLock",
+      "first_seen": "2025-07-18",
+      "last_updated": "2026-01-01"
+    },
+    {
+      "hash": "6d7fce9fee471194aa8b5b6e47267f03",
+      "algorithm": "md5",
+      "type": "Keylogger",
+      "description": "Records keystrokes",
+      "severity": "high",
+      "category": "spyware",
+      "family": "KeySpy",
+      "first_seen": "2024-04-22",
+      "last_updated": "2026-01-01"
+    },
+    {
+      "hash": "98f13708210194c475687be6106a3b84",
+      "algorithm": "md5",
+      "type": "Downloader",
+      "description": "Downloads additional payloads",
+      "severity": "high",
+      "category": "downloader",
+      "family": "DropLoader",
+      "first_seen": "2025-02-11",
+      "last_updated": "2026-01-01"
+    }
+  ],
+  "patterns": [
+    {
+      "pattern": "eval\\([^)]*\\)",
+      "type": "Obfuscated JavaScript",
+      "description": "Possible malicious JS eval usage",
+      "severity": "high",
+      "category": "script",
+      "tags": ["js", "obfuscation"]
+    },
+    {
+      "pattern": "fromCharCode\\(",
+      "type": "JS Obfuscation",
+      "description": "Encoded JS payload",
+      "severity": "medium",
+      "category": "script",
+      "tags": ["js"]
+    },
+    {
+      "pattern": "powershell\\s+-enc",
+      "type": "Encoded PowerShell",
+      "description": "Encoded PowerShell execution",
+      "severity": "critical",
+      "category": "execution",
+      "tags": ["powershell"]
+    },
+    {
+      "pattern": "cmd\\.exe",
+      "type": "Command Execution",
+      "description": "System command execution",
+      "severity": "high",
+      "category": "execution",
+      "tags": ["windows"]
+    },
+    {
+      "pattern": "/bin/bash",
+      "type": "Linux Shell",
+      "description": "Shell execution attempt",
+      "severity": "high",
+      "category": "execution",
+      "tags": ["linux"]
+    },
+    {
+      "pattern": "wget\\s+http",
+      "type": "Downloader",
+      "description": "File download attempt",
+      "severity": "medium",
+      "category": "network",
+      "tags": ["linux"]
+    },
+    {
+      "pattern": "curl\\s+http",
+      "type": "Downloader",
+      "description": "HTTP fetch command",
+      "severity": "medium",
+      "category": "network",
+      "tags": ["linux"]
+    },
+    {
+      "pattern": "nc\\s+-e",
+      "type": "Reverse Shell",
+      "description": "Netcat reverse shell",
+      "severity": "critical",
+      "category": "backdoor",
+      "tags": ["network"]
+    },
+    {
+      "pattern": "base64\\s+decode",
+      "type": "Encoded Payload",
+      "description": "Base64 decoding behavior",
+      "severity": "medium",
+      "category": "encoding",
+      "tags": ["obfuscation"]
+    },
+    {
+      "pattern": "X5O!P%@AP",
+      "type": "EICAR String",
+      "description": "Antivirus test string",
+      "severity": "low",
+      "category": "test",
+      "tags": ["eicar"]
+    }
+  ],
+  "iocs": {
+    "domains": [
+      "secure-login-bank.com",
+      "update-paypal-account.net",
+      "verify-otp-now.com",
+      "free-gift-cards.xyz",
+      "login-security-alert.org"
     ],
-    "patterns": [
-        {
-            "pattern": "X5O!P%@AP\\[4\\\\PZX54\\(P\\^\\)7CC\\)7\\}\\$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!\\$H\\+H\\*",
-            "type": "EICAR String",
-            "description": "EICAR test file content"
-        },
-        {
-            "pattern": "\\x90{15,}",
-            "type": "NOP Sled",
-            "description": "Potential shellcode indicator"
-        },
-        {
-            "pattern": "eval\\([^)]*\\)",
-            "type": "Suspicious JS",
-            "description": "Potential malicious JavaScript"
-        },
-        {
-            "pattern": "(?:exec|system|shell_exec)\\s*\\(",
-            "type": "Suspicious PHP",
-            "description": "Potential malicious PHP code"
-        },
-        {
-            "pattern": "powershell\\s+-[^\\s]*(enc|encoded|command|nop)",
-            "type": "Suspicious PowerShell",
-            "description": "Potential malicious PowerShell command"
-        }
+    "ips": [
+      "185.234.218.12",
+      "45.67.89.123",
+      "103.21.244.5",
+      "198.51.100.42",
+      "203.0.113.77"
+    ],
+    "urls": [
+      "http://185.234.218.12/malware.exe",
+      "http://free-gift-cards.xyz/claim",
+      "https://verify-otp-now.com/login",
+      "http://45.67.89.123/dropper.zip",
+      "http://secure-login-bank.com/reset"
     ]
+  },
+  "file_risk_profiles": {
+    "exe": "high",
+    "dll": "high",
+    "js": "medium",
+    "pdf": "medium",
+    "zip": "medium",
+    "txt": "low"
+  },
+  "yara_rules": [
+    {
+      "name": "suspicious_exec_behavior",
+      "description": "Detects suspicious execution patterns",
+      "pattern": "rule placeholder",
+      "severity": "high"
+    }
+  ],
+  "behavior_patterns": [
+    {
+      "type": "reverse_shell",
+      "description": "Attempts to open remote shell",
+      "severity": "critical"
+    },
+    {
+      "type": "data_exfiltration",
+      "description": "Unusual outbound data transfer",
+      "severity": "high"
+    },
+    {
+      "type": "persistence",
+      "description": "Attempts to maintain system access",
+      "severity": "high"
+    }
+  ]
 }

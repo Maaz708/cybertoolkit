@@ -1,0 +1,226 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "CyberToolkit Network Monitoring API",
+    "description": "Enhanced network monitoring system with real-time features, smart alerts, and analytics",
+    "version": "1.0.0",
+    "contact": {
+      "name": "API Support",
+      "email": "support@cybertoolkit.local"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5000/api",
+      "description": "Local development server"
+    }
+  ],
+  "paths": {
+    "/network/status": {
+      "get": {
+        "summary": "Get network status",
+        "description": "Returns current network monitoring status with human-readable data transformations",
+        "tags": ["Network"],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Network status retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "string", "example": "success" },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "requestId": { "type": "string" },
+                        "responseTime": { "type": "string" },
+                        "version": { "type": "string" },
+                        "timestamp": { "type": "string" }
+                      }
+                    },
+                    "isMonitoring": { "type": "boolean" },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "connections": { "type": "integer" },
+                        "bandwidth": {
+                          "type": "object",
+                          "properties": {
+                            "inbound": { "type": "number" },
+                            "outbound": { "type": "number" }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/network/analytics": {
+      "get": {
+        "summary": "Get network analytics",
+        "description": "Returns trend analysis, peak detection, and anomaly detection data",
+        "tags": ["Analytics"],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Analytics data retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "trends": {
+                      "type": "object",
+                      "properties": {
+                        "traffic": { "type": "string", "enum": ["up", "down", "stable"] },
+                        "connections": { "type": "string", "enum": ["up", "down", "stable"] },
+                        "risk": { "type": "string", "enum": ["up", "down", "stable"] }
+                      }
+                    },
+                    "peaks": { "type": "object" },
+                    "anomalies": { "type": "object" },
+                    "charts": { "type": "object" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/network/alerts": {
+      "get": {
+        "summary": "Get network alerts",
+        "description": "Returns smart alerts with categories, severity scores, and deduplication",
+        "tags": ["Alerts"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "severity",
+            "in": "query",
+            "schema": { "type": "string", "enum": ["critical", "high", "medium", "low"] }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "schema": { "type": "string", "enum": ["security", "performance", "anomaly", "system"] }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Alerts retrieved successfully"
+          }
+        }
+      }
+    },
+    "/network/security": {
+      "get": {
+        "summary": "Get security analysis",
+        "description": "Returns security score, threats, vulnerabilities, and AI-like insights",
+        "tags": ["Security"],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Security analysis retrieved successfully"
+          }
+        }
+      }
+    },
+    "/network/ws-info": {
+      "get": {
+        "summary": "WebSocket connection info",
+        "description": "Returns WebSocket connection details and available channels",
+        "tags": ["WebSocket"],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "WebSocket info retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "string" },
+                    "isMonitoring": { "type": "boolean" },
+                    "connectedClients": { "type": "integer" },
+                    "availableChannels": {
+                      "type": "array",
+                      "items": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/network/start": {
+      "post": {
+        "summary": "Start network monitoring",
+        "description": "Starts network monitoring and WebSocket broadcasting",
+        "tags": ["Control"],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "interval": { "type": "integer", "default": 5000 }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Monitoring started successfully"
+          }
+        }
+      }
+    },
+    "/network/stop": {
+      "post": {
+        "summary": "Stop network monitoring",
+        "description": "Stops network monitoring and WebSocket broadcasting",
+        "tags": ["Control"],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Monitoring stopped successfully"
+          }
+        }
+      }
+    },
+    "/network/summary": {
+      "get": {
+        "summary": "Get dashboard summary",
+        "description": "Returns frontend-friendly summary cards and chart data",
+        "tags": ["Dashboard"],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Summary retrieved successfully"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
