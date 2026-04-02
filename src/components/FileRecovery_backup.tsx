@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 
-interface ScanResult {
+import axios from 'axios';
+
+const API_BASE_URL = 'http://localhost:3000/api/recovery';
+
+interface RecoveryResult {
   filename: string;
   size: number;
   mime_type: string;
@@ -62,7 +66,7 @@ const styles = `
     --glow-orange: 0 0 12px rgba(255,140,0,0.5);
   }
 
-  .md-root {
+  .fr-root {
     font-family: 'Rajdhani', sans-serif;
     background: var(--bg-void);
     color: var(--text-primary);
@@ -75,7 +79,7 @@ const styles = `
   }
 
   /* Scanline overlay */
-  .md-root::before {
+  .fr-root::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -88,8 +92,8 @@ const styles = `
     z-index: 0;
   }
 
-  /* Corner brackets */
-  .md-root::after {
+  /* Corner brats */
+  .fr-root::after {
     content: '';
     position: absolute;
     bottom: -1px; right: -1px;
@@ -99,20 +103,20 @@ const styles = `
     pointer-events: none;
   }
 
-  .md-corner-tl, .md-corner-tr, .md-corner-bl {
+  .fr-corner-tl, .fr-corner-tr, .fr-corner-bl {
     position: absolute;
     width: 20px; height: 20px;
     pointer-events: none;
     z-index: 2;
   }
-  .md-corner-tl { top: -1px; left: -1px; border-top: 2px solid var(--accent-cyan); border-left: 2px solid var(--accent-cyan); }
-  .md-corner-tr { top: -1px; right: -1px; border-top: 2px solid var(--accent-cyan); border-right: 2px solid var(--accent-cyan); }
-  .md-corner-bl { bottom: -1px; left: -1px; border-bottom: 2px solid var(--accent-cyan); border-left: 2px solid var(--accent-cyan); }
+  .fr-corner-tl { top: -1px; left: -1px; border-top: 2px solid var(--accent-cyan); border-left: 2px solid var(--accent-cyan); }
+  .fr-corner-tr { top: -1px; right: -1px; border-top: 2px solid var(--accent-cyan); border-right: 2px solid var(--accent-cyan); }
+  .fr-corner-bl { bottom: -1px; left: -1px; border-bottom: 2px solid var(--accent-cyan); border-left: 2px solid var(--accent-cyan); }
 
-  .md-inner { position: relative; z-index: 1; }
+  .fr-inner { position: relative; z-index: 1; }
 
   /* Header */
-  .md-header {
+  .fr-header {
     display: flex;
     align-items: center;
     gap: 14px;
@@ -121,7 +125,7 @@ const styles = `
     border-bottom: 1px solid var(--border-dim);
   }
 
-  .md-header-icon {
+  .fr-header-icon {
     width: 42px; height: 42px;
     border: 1px solid var(--accent-cyan);
     border-radius: 50%;
@@ -137,7 +141,7 @@ const styles = `
     50%      { box-shadow: 0 0 22px rgba(0,200,255,0.9); }
   }
 
-  .md-title {
+  .fr-title {
     font-family: 'Share Tech Mono', monospace;
     font-size: 16px;
     color: var(--accent-cyan);
@@ -146,7 +150,7 @@ const styles = `
     text-shadow: var(--glow-cyan);
   }
 
-  .md-subtitle {
+  .fr-subtitle {
     font-family: 'Share Tech Mono', monospace;
     font-size: 10px;
     color: var(--text-secondary);
@@ -154,7 +158,7 @@ const styles = `
     margin-top: 2px;
   }
 
-  .md-status-badge {
+  .fr-status-badge {
     margin-left: auto;
     font-family: 'Share Tech Mono', monospace;
     font-size: 10px;
@@ -164,7 +168,7 @@ const styles = `
     letter-spacing: 1px;
   }
 
-  .md-status-dot {
+  .fr-status-dot {
     width: 7px; height: 7px;
     border-radius: 50%;
     background: var(--accent-green);
@@ -175,7 +179,7 @@ const styles = `
   @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.15} }
 
   /* Upload area */
-  .md-upload-area {
+  .fr-upload-area {
     border: 1px dashed rgba(0,200,255,0.25);
     background: var(--bg-card);
     padding: 28px 20px;
@@ -185,23 +189,23 @@ const styles = `
     cursor: pointer;
     position: relative;
   }
-  .md-upload-area:hover {
+  .fr-upload-area:hover {
     border-color: var(--accent-cyan);
     background: var(--bg-elevated);
   }
-  .md-upload-area.has-file {
+  .fr-upload-area.has-file {
     border-color: rgba(0,255,136,0.3);
     border-style: solid;
   }
 
-  .md-upload-icon {
+  .fr-upload-icon {
     font-size: 32px;
     margin-bottom: 8px;
     opacity: 0.6;
     display: block;
   }
 
-  .md-upload-text {
+  .fr-upload-text {
     font-family: 'Share Tech Mono', monospace;
     font-size: 12px;
     color: var(--text-secondary);
@@ -209,7 +213,7 @@ const styles = `
     text-transform: uppercase;
   }
 
-  .md-file-name {
+  .fr-file-name {
     font-family: 'Share Tech Mono', monospace;
     font-size: 13px;
     color: var(--accent-green);
@@ -218,7 +222,7 @@ const styles = `
     margin-top: 6px;
   }
 
-  .md-file-input {
+  .fr-file-input {
     position: absolute;
     inset: 0;
     opacity: 0;
@@ -228,13 +232,13 @@ const styles = `
   }
 
   /* Action row */
-  .md-actions {
+  .fr-actions {
     display: flex;
     gap: 12px;
     margin-bottom: 20px;
   }
 
-  .md-btn {
+  .fr-btn {
     font-family: 'Share Tech Mono', monospace;
     font-size: 11px;
     text-transform: uppercase;
@@ -247,32 +251,32 @@ const styles = `
     clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
   }
 
-  .md-btn-primary {
+  .fr-btn-primary {
     border-color: var(--accent-cyan);
     color: var(--accent-cyan);
   }
-  .md-btn-primary:hover:not(:disabled) {
+  .fr-btn-primary:hover:not(:disabled) {
     background: rgba(0,200,255,0.1);
     box-shadow: var(--glow-cyan);
   }
 
-  .md-btn-scan {
+  .fr-btn-scan {
     border-color: var(--accent-green);
     color: var(--accent-green);
     flex: 1;
   }
-  .md-btn-scan:hover:not(:disabled) {
+  .fr-btn-scan:hover:not(:disabled) {
     background: rgba(0,255,136,0.08);
     box-shadow: var(--glow-green);
   }
 
-  .md-btn:disabled {
+  .fr-btn:disabled {
     opacity: 0.25;
     cursor: not-allowed;
   }
 
-  /* Scanning state */
-  .md-scanning {
+  /* recovering state */
+  .fr-recovering {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -280,7 +284,7 @@ const styles = `
     padding: 32px 0;
   }
 
-  .md-spinner {
+  .fr-spinner {
     width: 48px; height: 48px;
     border: 2px solid rgba(0,200,255,0.12);
     border-top-color: var(--accent-cyan);
@@ -292,19 +296,19 @@ const styles = `
 
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  .md-scanning-text {
+  .fr-recovering-text {
     font-family: 'Share Tech Mono', monospace;
     font-size: 12px;
     color: var(--accent-cyan);
     letter-spacing: 3px;
     text-transform: uppercase;
-    animation: flicker 1.5s ease-in-out infinite;
+    animation: flir 1.5s ease-in-out infinite;
   }
 
-  @keyframes flicker { 0%,100%{opacity:1} 50%{opacity:0.5} }
+  @keyframes flir { 0%,100%{opacity:1} 50%{opacity:0.5} }
 
   /* Alert banners */
-  .md-alert {
+  .fr-alert {
     padding: 12px 16px;
     margin-bottom: 16px;
     font-family: 'Share Tech Mono', monospace;
@@ -316,14 +320,14 @@ const styles = `
     border-left: 3px solid;
   }
 
-  .md-alert.error   { background: rgba(255,45,45,0.08);  border-color: var(--accent-red);    color: #ff6b6b; }
-  .md-alert.warning { background: rgba(255,140,0,0.08);  border-color: var(--accent-orange);  color: #ffaa44; }
-  .md-alert.success { background: rgba(0,255,136,0.07);  border-color: var(--accent-green);   color: #00ff88; }
+  .fr-alert.error   { background: rgba(255,45,45,0.08);  border-color: var(--accent-red);    color: #ff6b6b; }
+  .fr-alert.warning { background: rgba(255,140,0,0.08);  border-color: var(--accent-orange);  color: #ffaa44; }
+  .fr-alert.success { background: rgba(0,255,136,0.07);  border-color: var(--accent-green);   color: #00ff88; }
 
-  .md-alert-icon { font-size: 16px; flex-shrink: 0; }
+  .fr-alert-icon { font-size: 16px; flex-shrink: 0; }
 
   /* Results section */
-  .md-results-header {
+  .fr-results-header {
     font-family: 'Share Tech Mono', monospace;
     font-size: 11px;
     color: var(--accent-cyan);
@@ -336,7 +340,7 @@ const styles = `
   }
 
   /* Risk score bar */
-  .md-risk-block {
+  .fr-risk-block {
     background: var(--bg-card);
     border: 1px solid var(--border-dim);
     padding: 16px;
@@ -346,7 +350,7 @@ const styles = `
     gap: 20px;
   }
 
-  .md-risk-label {
+  .fr-risk-label {
     font-family: 'Share Tech Mono', monospace;
     font-size: 10px;
     color: var(--text-secondary);
@@ -356,7 +360,7 @@ const styles = `
     min-width: 80px;
   }
 
-  .md-risk-bar-wrap {
+  .fr-risk-bar-wrap {
     flex: 1;
     height: 6px;
     background: rgba(255,255,255,0.05);
@@ -364,13 +368,13 @@ const styles = `
     overflow: hidden;
   }
 
-  .md-risk-bar-fill {
+  .fr-risk-bar-fill {
     height: 100%;
     border-radius: 0;
     transition: width 0.8s ease;
   }
 
-  .md-risk-value {
+  .fr-risk-value {
     font-family: 'Share Tech Mono', monospace;
     font-size: 22px;
     min-width: 60px;
@@ -378,29 +382,29 @@ const styles = `
     line-height: 1;
   }
 
-  .md-risk-low    .md-risk-bar-fill { background: var(--accent-green); }
-  .md-risk-low    .md-risk-value    { color: var(--accent-green); text-shadow: var(--glow-green); }
-  .md-risk-medium .md-risk-bar-fill { background: var(--accent-orange); }
-  .md-risk-medium .md-risk-value    { color: var(--accent-orange); text-shadow: var(--glow-orange); }
-  .md-risk-high   .md-risk-bar-fill { background: var(--accent-red); box-shadow: var(--glow-red); }
-  .md-risk-high   .md-risk-value    { color: var(--accent-red); text-shadow: var(--glow-red); }
+  .fr-risk-low    .fr-risk-bar-fill { background: var(--accent-green); }
+  .fr-risk-low    .fr-risk-value    { color: var(--accent-green); text-shadow: var(--glow-green); }
+  .fr-risk-medium .fr-risk-bar-fill { background: var(--accent-orange); }
+  .fr-risk-medium .fr-risk-value    { color: var(--accent-orange); text-shadow: var(--glow-orange); }
+  .fr-risk-high   .fr-risk-bar-fill { background: var(--accent-red); box-shadow: var(--glow-red); }
+  .fr-risk-high   .fr-risk-value    { color: var(--accent-red); text-shadow: var(--glow-red); }
 
   /* Info grid */
-  .md-info-grid {
+  .fr-info-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
     margin-bottom: 12px;
   }
 
-  .md-info-card {
+  .fr-info-card {
     background: var(--bg-card);
     border: 1px solid var(--border-dim);
     padding: 12px 14px;
     clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
   }
 
-  .md-info-card-label {
+  .fr-info-card-label {
     font-family: 'Share Tech Mono', monospace;
     font-size: 9px;
     color: var(--text-secondary);
@@ -409,7 +413,7 @@ const styles = `
     margin-bottom: 6px;
   }
 
-  .md-info-card-value {
+  .fr-info-card-value {
     font-family: 'Share Tech Mono', monospace;
     font-size: 12px;
     color: var(--text-primary);
@@ -417,14 +421,14 @@ const styles = `
     line-height: 1.5;
   }
 
-  .md-info-card-value.mono-small {
+  .fr-info-card-value.mono-small {
     font-size: 10px;
     color: var(--text-secondary);
     line-height: 1.8;
   }
 
   /* Signature match */
-  .md-sig-badge {
+  .fr-sig-badge {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -440,13 +444,13 @@ const styles = `
   }
 
   /* Threats list */
-  .md-threats {
+  .fr-threats {
     background: var(--bg-card);
     border: 1px solid rgba(255,45,45,0.2);
     margin-bottom: 12px;
   }
 
-  .md-threats-header {
+  .fr-threats-header {
     padding: 10px 14px;
     background: rgba(255,45,45,0.07);
     border-bottom: 1px solid rgba(255,45,45,0.15);
@@ -460,23 +464,23 @@ const styles = `
     gap: 8px;
   }
 
-  .md-threat-item {
+  .fr-threat-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 10px 14px;
     border-bottom: 1px solid rgba(255,45,45,0.08);
   }
-  .md-threat-item:last-child { border-bottom: none; }
+  .fr-threat-item:last-child { border-bottom: none; }
 
-  .md-threat-type {
+  .fr-threat-type {
     font-family: 'Rajdhani', sans-serif;
     font-size: 13px;
     font-weight: 600;
     color: var(--text-primary);
   }
 
-  .md-severity-pill {
+  .fr-severity-pill {
     font-family: 'Share Tech Mono', monospace;
     font-size: 9px;
     padding: 2px 8px;
@@ -484,135 +488,100 @@ const styles = `
     letter-spacing: 1px;
     border-radius: 2px;
   }
-  .md-severity-high     { background: rgba(255,45,45,0.15);  color:#ff2d2d; border:1px solid rgba(255,45,45,0.4); }
-  .md-severity-medium   { background: rgba(255,140,0,0.15);  color:#ff8c00; border:1px solid rgba(255,140,0,0.4); }
-  .md-severity-low      { background: rgba(0,255,136,0.10);  color:#00ff88; border:1px solid rgba(0,255,136,0.3); }
-  .md-severity-critical { background: rgba(255,0,80,0.18);   color:#ff0050; border:1px solid rgba(255,0,80,0.5); box-shadow: 0 0 8px rgba(255,0,80,0.3); }
+  .fr-severity-high     { background: rgba(255,45,45,0.15);  color:#ff2d2d; border:1px solid rgba(255,45,45,0.4); }
+  .fr-severity-medium   { background: rgba(255,140,0,0.15);  color:#ff8c00; border:1px solid rgba(255,140,0,0.4); }
+  .fr-severity-low      { background: rgba(0,255,136,0.10);  color:#00ff88; border:1px solid rgba(0,255,136,0.3); }
+  .fr-severity-critical { background: rgba(255,0,80,0.18);   color:#ff0050; border:1px solid rgba(255,0,80,0.5); box-shadow: 0 0 8px rgba(255,0,80,0.3); }
 `;
 
-const MalwareDetection: React.FC = () => {
+const FileRecovery: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
-  const [scanning, setScanning] = useState(false);
-  const [result, setResult] = useState<ScanResult | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [recovering, setRecovering] = useState(false);
+  const [result, setResult] = useState<any>(null);
+  const [error, setError] = useState<string>('');
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       setFile(event.target.files[0]);
-      setError(null);
+      setError('');
       setResult(null);
     }
   };
 
-  const handleScan = async () => {
-    if (!file) return;
-    setScanning(true);
-    setError(null);
-    const formData = new FormData();
-    formData.append('file', file);
-    try {
-      const response = await fetch('/api/malware/scan', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-        },
-        body: formData,
-      });
-      const data = await response.json();
-      if (data.status === 'error') throw new Error(data.message);
-      setResult(data.data);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred during scanning');
-    } finally {
-      setScanning(false);
-    }
-  };
 
-  const getRiskClass = (score: number) =>
-    score >= 70 ? 'md-risk-high' : score >= 35 ? 'md-risk-medium' : 'md-risk-low';
 
-  const getSeverityClass = (sev: string) => {
-    const s = sev?.toLowerCase();
-    if (s === 'critical') return 'md-severity-critical';
-    if (s === 'high')     return 'md-severity-high';
-    if (s === 'medium')   return 'md-severity-medium';
-    return 'md-severity-low';
-  };
 
-  const getAlertType = (action: string) => {
-    if (action === 'BLOCK')   return 'error';
-    if (action === 'WARNING') return 'warning';
-    return 'success';
-  };
+
+
 
   const alertIcons: Record<string, string> = { error: '⛔', warning: '⚠', success: '✔' };
 
-  const renderScanResult = (result: ScanResult) => (
+  const renderRecoveryResult = (result: any) => (
     <div>
-      <div className="md-results-header">⊞ Scan Results</div>
+      <div className="fr-results-header">⊞ Scan Results</div>
 
       {result.recommendation && (() => {
         const type = getAlertType(result.recommendation.action);
         return (
-          <div className={`md-alert ${type}`}>
-            <span className="md-alert-icon">{alertIcons[type]}</span>
+          <div className={`fr-alert ${type}`}>
+            <span className="fr-alert-icon">{alertIcons[type]}</span>
             {result.recommendation.message}
           </div>
         );
       })()}
 
       {/* Risk Score */}
-      <div className={`md-risk-block ${getRiskClass(result.risk_score)}`}>
-        <div className="md-risk-label">Risk Score</div>
-        <div className="md-risk-bar-wrap">
-          <div className="md-risk-bar-fill" style={{ width: `${result?.risk_score || 0}%` }} />
+      <div className={`fr-risk-block ${getRiskClass(result.risk_score)}`}>
+        <div className="fr-risk-label">Risk Score</div>
+        <div className="fr-risk-bar-wrap">
+          <div className="fr-risk-bar-fill" style={{ width: `${result.risk_score}%` }} />
         </div>
-        <div className="md-risk-value">{result?.risk_score || 0}<span style={{ fontSize: 11, opacity: 0.5 }}>/100</span></div>
+        <div className="fr-risk-value">{result.risk_score}<span style={{ fontSize: 11, opacity: 0.5 }}>/100</span></div>
       </div>
 
       {/* File info + hashes */}
-      <div className="md-info-grid">
-        <div className="md-info-card">
-          <div className="md-info-card-label">File Information</div>
-          <div className="md-info-card-value">{result?.filename || 'Unknown file'}</div>
-          <div className="md-info-card-value mono-small">{result?.size?.toLocaleString() || '0'} bytes</div>
+      <div className="fr-info-grid">
+        <div className="fr-info-card">
+          <div className="fr-info-card-label">File Information</div>
+          <div className="fr-info-card-value">{result.filename}</div>
+          <div className="fr-info-card-value mono-small">{result.size.toLocaleString()} bytes</div>
         </div>
-        <div className="md-info-card">
-          <div className="md-info-card-label">File Hashes</div>
-          <div className="md-info-card-value mono-small">
-            MD5: {result?.hashes?.md5 || 'N/A'}<br />
-            SHA1: {result?.hashes?.sha1 || 'N/A'}<br />
-            SHA256: {result?.hashes?.sha256 || 'N/A'}
+        <div className="fr-info-card">
+          <div className="fr-info-card-label">File Hashes</div>
+          <div className="fr-info-card-value mono-small">
+            MD5: {result.hashes.md5}<br />
+            SHA1: {result.hashes.sha1}<br />
+            SHA256: {result.hashes.sha256}
           </div>
         </div>
       </div>
 
       {/* Signature match */}
       {result.signatureMatch && (
-        <div className="md-info-card" style={{ marginBottom: 12 }}>
-          <div className="md-info-card-label">Signature Match</div>
+        <div className="fr-info-card" style={{ marginBottom: 12 }}>
+          <div className="fr-info-card-label">Signature Match</div>
           <div style={{ marginTop: 6 }}>
-            <span className="md-sig-badge">⊗ {result.signatureMatch.type}</span>
+            <span className="fr-sig-badge">⊗ {result.signatureMatch.type}</span>
           </div>
-          <div className="md-info-card-value" style={{ marginTop: 4 }}>
+          <div className="fr-info-card-value" style={{ marginTop: 4 }}>
             {result.signatureMatch.description}
           </div>
         </div>
       )}
 
       {/* Threats */}
-      {result?.threats && result.threats.length > 0 && (
-        <div className="md-threats">
-          <div className="md-threats-header">
+      {result.threats.length > 0 && (
+        <div className="fr-threats">
+          <div className="fr-threats-header">
             ⊗ Detected Threats
             <span style={{ marginLeft: 'auto', background: 'rgba(255,45,45,0.2)', padding: '1px 7px', borderRadius: 2 }}>
               {result.threats.length}
             </span>
           </div>
-          {result?.threats?.map((threat, index) => (
-            <div className="md-threat-item" key={index}>
-              <div className="md-threat-type">{threat.type}</div>
-              <span className={`md-severity-pill ${getSeverityClass(threat.severity)}`}>
+          {result.threats.map((threat, index) => (
+            <div className="fr-threat-item" key={index}>
+              <div className="fr-threat-type">{threat.type}</div>
+              <span className={`fr-severity-pill ${getSeverityClass(threat.severity)}`}>
                 {threat.severity}
               </span>
             </div>
@@ -625,74 +594,88 @@ const MalwareDetection: React.FC = () => {
   return (
     <>
       <style>{styles}</style>
-      <div className="md-root">
-        <div className="md-corner-tl" />
-        <div className="md-corner-tr" />
-        <div className="md-corner-bl" />
+      <div className="fr-root">
+        <div className="fr-corner-tl" />
+        <div className="fr-corner-tr" />
+        <div className="fr-corner-bl" />
 
-        <div className="md-inner">
+        <div className="fr-inner">
           {/* Header */}
-          <div className="md-header">
-            <div className="md-header-icon">⊗</div>
+          <div className="fr-header">
+            <div className="fr-header-icon">⊗</div>
             <div>
-              <div className="md-title">Malware Detection</div>
-              <div className="md-subtitle">// Static Analysis Engine v1.0</div>
+              <div className="fr-title">File Recovery</div>
+              <div className="fr-subtitle">// Data Reconstruction Engine v2.0</div>
             </div>
-            <div className="md-status-badge">
-              <span className="md-status-dot" />
-              Engine Ready
+            <div className="fr-status-badge">
+              <span className="fr-status-dot" />
+              Recoveryadow
             </div>
           </div>
 
           {/* Upload area */}
-          <div className={`md-upload-area ${file ? 'has-file' : ''}`}>
+          <div className={`fr-upload-area ${file ? 'has-file' : ''}`}>
             <input
               type="file"
-              className="md-file-input"
+              className="fr-file-input"
               onChange={handleFileChange}
-              disabled={scanning}
+              disabled={recovering}
             />
-            <span className="md-upload-icon">{file ? '📄' : '⬆'}</span>
+            <span className="fr-upload-icon">{file ? '📄' : '⬆'}</span>
             {file ? (
-              <div className="md-file-name">⊕ {file.name}</div>
+              <div className="fr-file-name">⊕ {file.name}</div>
             ) : (
-              <div className="md-upload-text">Drop file here or click to select</div>
+              <div className="fr-upload-text">Drop corrupted file here or click to select</div>
             )}
           </div>
 
           {/* Actions */}
-          <div className="md-actions">
+          <div className="fr-actions">
             <button
-              className="md-btn md-btn-scan"
-              onClick={handleScan}
-              disabled={!file || scanning}
+              className="fr-btn fr-btn-primary"
+              onClick={handleRecovery}
+              disabled={!file || recovering}
             >
-              {scanning ? '⟳  Scanning...' : '⊗  Scan File'}
+              {recovering ? '⟳  recovering...' : '⊗  Scan File'}
             </button>
           </div>
 
-          {/* Scanning animation */}
-          {scanning && (
-            <div className="md-scanning">
-              <div className="md-spinner" />
-              <div className="md-scanning-text">Analyzing file...</div>
+          {/* recovering animation */}
+          {recovering && (
+            <div className="fr-recovering">
+              <div className="fr-spinner" />
+              <div className="fr-recovering-text">Analyzing file...</div>
             </div>
           )}
 
           {/* Error */}
           {error && (
-            <div className="md-alert error">
-              <span className="md-alert-icon">⛔</span>
+            <div className="fr-alert error">
+              <span className="fr-alert-icon">⛔</span>
               {error}
             </div>
           )}
 
           {/* Results */}
-          {result && renderScanResult(result)}
+          {result && renderRecoveryResult(result)}
         </div>
       </div>
     </>
   );
 };
 
-export default MalwareDetection;
+export default FileRecovery;
+
+
+
+
+
+
+
+
+
+
+
+
+
+

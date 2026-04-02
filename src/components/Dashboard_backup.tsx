@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useAuth } from '../contexts/AuthContext';
 import {
   Security, Storage, NetworkCheck, Email, Cloud, Shield, BugReport, Fingerprint,
   Assessment, Warning, CheckCircle, ErrorOutline, TrendingUp, Menu,
@@ -12,7 +11,46 @@ import { Chart, registerables } from 'chart.js';
 
 Chart.register(...registerables);
 
-const API_BASE_URL = 'http://localhost:5000';
+const modules = [
+  {
+    title: 'File Analysis',
+    icon: Storage,
+    color: '#00d4ff',
+    glow: '0 0 20px rgba(0,212,255,0.4)',
+    stats: { label: 'Files Scanned', value: '12,847', change: '+3.2%' },
+    description: 'Extract metadata, detect suspicious files, trace origins and identify anomalous file properties.',
+    status: 'active',
+  },
+  {
+    title: 'Network Monitor',
+    icon: NetworkCheck,
+    color: '#00ff88',
+    glow: '0 0 20px rgba(0,255,136,0.4)',
+    stats: { label: 'Connections Live', value: '188', change: '+12' },
+    description: 'Real-time traffic analysis with packet-level inspection and protocol anomaly detection.',
+    status: 'active',
+  },
+  {
+    title: 'Malware Detection',
+    icon: BugReport,
+    color: '#ff4d6d',
+    glow: '0 0 20px rgba(255,77,109,0.4)',
+    stats: { label: 'Threats Blocked', value: '47', change: '-2 today' },
+    description: 'ML-powered detection engine scanning for known and zero-day malware signatures.',
+    status: 'alert',
+  },
+  {
+    title: 'Email Forensics',
+    icon: Email,
+    color: '#a78bfa',
+    glow: '0 0 20px rgba(167,139,250,0.4)',
+    stats: { label: 'Headers Analyzed', value: '2,391', change: '+8.1%' },
+    description: 'Deep header parsing, phishing detection, and communication pattern forensics.',
+    status: 'active',
+  },
+];
+
+const securityScore = 82;
 
 const lineData = {
   labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
@@ -153,8 +191,6 @@ function AnimatedCounter({ target, duration = 1500 }: { target: number; duration
 }
 
 export default function Dashboard() {
-  const navigate = useNavigate();
-  const { user, isAuthenticated, logout } = useAuth();
   const [activeModule, setActiveModule] = useState<number | null>(null);
   const [tick, setTick] = useState(0);
 
@@ -163,7 +199,6 @@ export default function Dashboard() {
     connections: 0,
     bandwidth: 0,
     isMonitoring: false,
-    protocols: { TCP: 0, UDP: 0, Other: 0 }
   });
   const [securityScore, setSecurityScore] = useState(85);
   const [realAlerts, setRealAlerts] = useState<Array<{id: number; severity: string; msg: string; time: string}>>([]);
@@ -172,213 +207,126 @@ export default function Dashboard() {
     activeThreats: 0,
     filesAnalyzed: 0,
     networkEvents: 0,
-    emailsAnalyzed: 0,
-    threatsBlocked: 0
   });
   const [trafficHistory, setTrafficHistory] = useState<Array<{time: string; inbound: number; outbound: number}>>([]);
   const [protocols, setProtocols] = useState({ TCP: 0, UDP: 0, Other: 0 });
   const [threatData, setThreatData] = useState([68, 22, 10]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // 🎯 STEP 1: Fetch real user analytics data
+  // Fetch real data
   useEffect(() => {
-    const fetchAnalyticsData = async () => {
-      if (!isAuthenticated) return;
-      
+    const fetchData = async () => {
       try {
-        // Get user's real analytics data
-        const analyticsResponse = await axios.get(`${API_BASE_URL}/api/dashboard/analytics`);
-        if (analyticsResponse.data.success) {
-          const analytics = analyticsResponse.data.analytics;
-          
-          // Update stats with real data from API
-          setStats({
-            totalScans: (analytics.fileAnalysis?.totalScans || 0) + 
-                       (analytics.networkMonitoring?.totalScans || 0) + 
-                       (analytics.emailForensics?.totalAnalyses || 0),
-            activeThreats: (analytics.security?.criticalAlerts || 0) + 
-                          (analytics.security?.unresolvedAlerts || 0) +
-                          (analytics.fileAnalysis?.threatsFound || 0) +
-                          (analytics.networkMonitoring?.threatsDetected || 0),
-            filesAnalyzed: analytics.fileAnalysis?.totalScans || 0,
-            networkEvents: analytics.networkMonitoring?.totalConnections || 0,
-            emailsAnalyzed: analytics.emailForensics?.totalAnalyses || 0,
-            threatsBlocked: (analytics.fileAnalysis?.maliciousFiles || 0) + 
-                           (analytics.emailForensics?.phishingDetected || 0) +
-                           (analytics.emailForensics?.spamDetected || 0)
-          });
+        setIsLoading(true);
 
-          // Update network stats from real data
-          setNetworkStats(prev => ({
+        // Fetch network status
+        const networkRes = await axios.get('/api/network/status').catch(() => null);
+        if (networkRes?.data?.data) {
+          const data = networkRes.data.data;
+          setNetworkStats({
+            connections: data.connections?.length || 0,
+            bandwidth: (data.bandwidth?.inbound || 0) + (data.bandwidth?.outbound || 0),
+            isMonitoring: data.isMonitoring || false,
+          });
+          setProtocols(data.protocols || { TCP: 0, UDP: 0, Other: 0 });
+          setStats(prev => ({ ...prev, networkEvents: data.connections?.length || 0 }));
+
+          // Add to traffic history
+          setTrafficHistory(prev => {
+            const newPoint = {
+              time: new Date().toLocaleTimeString(),
+              inbound: (data.bandwidth?.inbound || 0) / 1024 / 1024,
+              outbound: (data.bandwidth?.outbound || 0) / 1024 / 1024,
+            };
+            return [...prev, newPoint].slice(-20);
+          });
+        }
+
+        // Fetch security analysis
+        const securityRes = await axios.get('/api/network/security').catch(() => null);
+        if (securityRes?.data?.data) {
+          const data = securityRes.data.data;
+          setSecurityScore(data.securityScore || 85);
+          setStats(prev => ({
             ...prev,
-            isMonitoring: false,
-            connections: analytics.networkMonitoring?.totalConnections || 0,
-            threats: analytics.networkMonitoring?.threatsDetected || 0,
-            protocols: {
-              TCP: Math.floor((analytics.networkMonitoring?.totalConnections || 0) * 0.7),
-              UDP: Math.floor((analytics.networkMonitoring?.totalConnections || 0) * 0.25),
-              Other: Math.floor((analytics.networkMonitoring?.totalConnections || 0) * 0.05)
-            }
+            activeThreats: data.suspicious_connections || 0,
           }));
 
-          // Update threat data for doughnut chart from real security data
-          const criticalAlerts = analytics.security?.criticalAlerts || 0;
-          const warningAlerts = analytics.security?.warningAlerts || analytics.security?.unresolvedAlerts || 0;
-          const infoAlerts = analytics.security?.infoAlerts || 0;
-          const totalAlerts = criticalAlerts + warningAlerts + infoAlerts || 1;
-          
-          setThreatData([
-            Math.round((criticalAlerts / totalAlerts) * 100) || 68,
-            Math.round((warningAlerts / totalAlerts) * 100) || 22,
-            Math.round((infoAlerts / totalAlerts) * 100) || 10
-          ]);
-
-          // Add real traffic history from analytics
-          if (analytics.recentActivity?.networkScans?.length > 0) {
-            setTrafficHistory(prev => {
-              if (prev.length === 0) {
-                // Initialize with real data - convert to inbound/outbound format
-                return analytics.recentActivity.networkScans.map((scan: any) => ({
-                  time: new Date(scan.time).toLocaleTimeString('en-US', { hour: '2-digit', hour12: false }),
-                  inbound: scan.connections || Math.floor(Math.random() * 100),
-                  outbound: scan.threats || Math.floor(Math.random() * 50)
-                }));
-              }
-              return prev;
+          // Generate alerts from security data
+          const newAlerts = [];
+          if (data.suspicious_connections > 0) {
+            newAlerts.push({
+              id: 1,
+              severity: 'warning',
+              msg: `${data.suspicious_connections} suspicious connections detected`,
+              time: 'Just now',
             });
           }
-
-          // Add real alerts from API
-          if (analytics.recentActivity?.alerts?.length > 0) {
-            setRealAlerts(analytics.recentActivity.alerts.map((alert: any) => ({
-              id: alert.id,
-              severity: alert.severity === 'high' ? 'critical' : alert.severity === 'medium' ? 'warning' : 'info',
-              msg: alert.title || alert.message,
-              time: new Date(alert.time).toLocaleTimeString()
-            })));
+          if (data.exposed_ports?.length > 0) {
+            newAlerts.push({
+              id: 2,
+              severity: 'info',
+              msg: `${data.exposed_ports.length} exposed ports found`,
+              time: 'Just now',
+            });
           }
-
-          // Add recent file scans to activity
-          if (analytics.recentActivity?.fileScans?.length > 0) {
-            const fileAlerts = analytics.recentActivity.fileScans
-              .filter((scan: any) => scan.threats > 0)
-              .map((scan: any, index: number) => ({
-                id: `file-${scan.id}-${index}-${Date.now()}`,
-                severity: scan.threats > 5 ? 'critical' : 'warning',
-                msg: `Threats found in ${scan.filename || 'file scan'}`,
-                time: new Date(scan.time).toLocaleTimeString()
-              }));
-            
-            if (fileAlerts.length > 0) {
-              setRealAlerts(prev => [...fileAlerts, ...prev].slice(0, 10));
-            }
-          }
+          setRealAlerts(newAlerts);
         }
 
-        // Get system stats if user is admin
-        if (user?.role === 'admin') {
-          try {
-            const systemStatsResponse = await axios.get(`${API_BASE_URL}/api/dashboard/system-stats`);
-            if (systemStatsResponse.data.success) {
-              const systemStats: any = systemStatsResponse.data.stats;
-              // Update some system-wide metrics
-              setStats(prev => ({
-                ...prev,
-                totalUsers: systemStats.users?.totalActive || 1,
-                totalScans: systemStats.system?.totalScans || 0,
-                systemHealth: systemStats.system?.systemHealth || 85
-              }));
-            }
-          } catch (error) {
-            console.log('Could not fetch system stats (non-admin or error):', (error as Error).message);
-          }
+        // Fetch file analysis history
+        const fileRes = await axios.get('/api/files/history').catch(() => null);
+        if (fileRes?.data?.history) {
+          const fileCount = fileRes.data.history.length;
+          setStats(prev => ({
+            ...prev,
+            filesAnalyzed: fileCount,
+            totalScans: fileCount,
+          }));
         }
 
-      } catch (error) {
-        console.error('Failed to fetch analytics data:', error);
-        // Show basic demo data if API fails
-        setStats(prev => ({
-          ...prev,
-          activeThreats: 3,
-          filesScanned: 15,
-          emailsAnalyzed: 8,
-          systemHealth: 85,
-          networkConnections: 12,
-          malwareDetected: 1,
-          phishingBlocked: 2,
-          dataRecovered: 25
-        }));
+        // Calculate threat distribution
+        setThreatData([
+          Math.max(10, 100 - stats.activeThreats * 2),
+          Math.min(40, stats.activeThreats * 3),
+          Math.min(30, stats.activeThreats),
+        ]);
+
+      } catch (err) {
+        console.error('Error fetching dashboard data:', err);
+      } finally {
+        setIsLoading(false);
       }
     };
 
-    fetchAnalyticsData();
-    
-    // Update tick for animations
+    fetchData();
+    const interval = setInterval(fetchData, 5000);
     const tickInterval = setInterval(() => setTick(p => p + 1), 3000);
 
     return () => {
+      clearInterval(interval);
       clearInterval(tickInterval);
     };
-  }, [isAuthenticated, user?.role]);
+  }, [stats.activeThreats]);
 
-  // Control functions with authentication
-  const startMonitoring = async () => {
-    if (!isAuthenticated) {
-      navigate('/login');
-      return;
-    }
-
-    try {
-      await axios.post(`${API_BASE_URL}/api/network/start`, { interval: 3000 });
-      setNetworkStats(prev => ({ ...prev, isMonitoring: true }));
-      console.log('✅ Backend monitoring started');
-    } catch (err: any) {
-      console.error('Failed to start monitoring:', err);
-      if (err.response?.status === 401) {
-        // Token expired, logout and redirect to landing page
-        await logout();
-        navigate('/');
-      }
-    }
-  };
-
-  const stopMonitoring = async () => {
-    if (!isAuthenticated) return;
-
-    try {
-      await axios.post(`${API_BASE_URL}/api/network/stop`);
-      setNetworkStats(prev => ({ ...prev, isMonitoring: false }));
-      console.log('✅ Backend monitoring stopped');
-    } catch (err: any) {
-      console.error('Failed to stop monitoring:', err);
-      if (err.response?.status === 401) {
-        await logout();
-        navigate('/');
-      }
-    }
-  };
-
-  // Dynamic modules with real data
-  const modules = [
+  // Update modules with real data
+  const dynamicModules = [
     {
-      title: 'File Recovery',
+      title: 'File Analysis',
       icon: Storage,
       color: '#00d4ff',
       glow: '0 0 20px rgba(0,212,255,0.4)',
-      stats: { label: 'Files Analyzed', value: stats.filesAnalyzed.toString(), change: '+3.2%' },
-      description: 'Recover and analyze deleted or corrupted files.',
-      status: 'active' as const,
-      path: '/file-recovery'
+      stats: { label: 'Files Scanned', value: stats.filesAnalyzed.toString(), change: '+3.2%' },
+      description: 'Extract metadata, detect suspicious files, trace origins and identify anomalous file properties.',
+      status: 'active',
     },
     {
       title: 'Network Monitor',
       icon: NetworkCheck,
       color: '#00ff88',
       glow: '0 0 20px rgba(0,255,136,0.4)',
-      stats: { label: 'Connections', value: networkStats.connections.toString(), change: networkStats.isMonitoring ? 'Active' : 'Stopped' },
-      description: 'Real-time network traffic analysis.',
-      status: networkStats.isMonitoring ? 'active' : 'inactive' as const,
-      path: '/network-monitor'
+      stats: { label: 'Connections Live', value: networkStats.connections.toString(), change: networkStats.isMonitoring ? 'Active' : 'Stopped' },
+      description: 'Real-time traffic analysis with packet-level inspection and protocol anomaly detection.',
+      status: networkStats.isMonitoring ? 'active' : 'inactive',
     },
     {
       title: 'Malware Detection',
@@ -386,19 +334,17 @@ export default function Dashboard() {
       color: '#ff4d6d',
       glow: '0 0 20px rgba(255,77,109,0.4)',
       stats: { label: 'Threats Blocked', value: stats.activeThreats.toString(), change: stats.activeThreats > 0 ? 'Alert' : 'Clear' },
-      description: 'AI-powered malware analysis and detection.',
-      status: stats.activeThreats > 0 ? 'alert' : 'active' as const,
-      path: '/malware-detection'
+      description: 'ML-powered detection engine scanning for known and zero-day malware signatures.',
+      status: stats.activeThreats > 0 ? 'alert' : 'active',
     },
     {
       title: 'Email Forensics',
       icon: Email,
       color: '#a78bfa',
       glow: '0 0 20px rgba(167,139,250,0.4)',
-      stats: { label: 'Emails Analyzed', value: stats.emailsAnalyzed.toString(), change: '+8.1%' },
-      description: 'Email header analysis and phishing detection.',
-      status: 'active' as const,
-      path: '/email-forensics'
+      stats: { label: 'Headers Analyzed', value: '2,391', change: '+8.1%' },
+      description: 'Deep header parsing, phishing detection, and communication pattern forensics.',
+      status: 'active',
     },
   ];
 
@@ -495,7 +441,6 @@ export default function Dashboard() {
         </div>
       </nav>
 
-      {/* Top Stats */}
       <div style={{ padding: '32px', maxWidth: 1440, margin: '0 auto' }}>
 
         {/* Header */}
@@ -507,49 +452,8 @@ export default function Dashboard() {
                 Digital Forensics<br /><span style={{ color: '#00d4ff' }}>Toolkit</span>
               </h1>
             </div>
-            <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-              {/* Manual Stop Monitoring Button */}
-              {networkStats.isMonitoring && (
-                <button
-                  onClick={stopMonitoring}
-                  style={{
-                    padding: '8px 16px',
-                    borderRadius: 8,
-                    border: '1px solid #ff4d6d',
-                    background: 'rgba(255,77,109,0.1)',
-                    color: '#ff4d6d',
-                    fontSize: 12,
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'rgba(255,77,109,0.2)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'rgba(255,77,109,0.1)';
-                  }}
-                >
-                  ⏹️ Stop Monitoring
-                </button>
-              )}
-              <button
-                onClick={() => navigate('/file-recovery')}
-                style={{
-                  padding: '10px 20px',
-                  background: 'linear-gradient(135deg, #00d4ff, #0066ff)',
-                  border: 'none',
-                  borderRadius: 8,
-                  color: '#fff',
-                  fontSize: 14,
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease'
-                }}
-              >
-                Quick Scan
-              </button>
-            </div>
+            <div style={{ display: 'flex', gap: 12 }}>
+               </div>
           </div>
         </div>
 
@@ -590,13 +494,13 @@ export default function Dashboard() {
 
           {/* Module Cards */}
           <div style={{ gridColumn: 'span 8', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16 }}>
-            {modules.map((mod: any, i: number) => (
-              <div key={i} className="module-card fade-in" onClick={() => navigate(mod.path)}
+            {dynamicModules.map((mod, i) => (
+              <div key={i} className="module-card fade-in" onClick={() => setActiveModule(activeModule === i ? null : i)}
                 style={{
-                  background: 'linear-gradient(135deg, #0f1521 0%, #131a2a 100%)',
-                  border: '1px solid rgba(255,255,255,0.06)',
+                  background: activeModule === i ? `linear-gradient(135deg, rgba(${mod.color === '#00d4ff' ? '0,212,255' : mod.color === '#00ff88' ? '0,255,136' : mod.color === '#ff4d6d' ? '255,77,109' : '167,139,250'},0.08) 0%, #0f1521 100%)` : 'linear-gradient(135deg, #0f1521 0%, #131a2a 100%)',
+                  border: `1px solid ${activeModule === i ? mod.color + '40' : 'rgba(255,255,255,0.06)'}`,
                   borderRadius: 16, padding: '22px',
-                  boxShadow: '0 4px 24px rgba(0,0,0,0.3)',
+                  boxShadow: activeModule === i ? mod.glow : '0 4px 24px rgba(0,0,0,0.3)',
                   animationDelay: `${0.15 + i * 0.08}s`,
                   position: 'relative', overflow: 'hidden',
                 }}>
@@ -610,9 +514,9 @@ export default function Dashboard() {
                   </div>
                   <div style={{
                     fontSize: 10, fontWeight: 700, letterSpacing: 1.5, padding: '3px 9px', borderRadius: 20,
-                    color: mod.status === 'alert' ? '#ff4d6d' : mod.status === 'inactive' ? '#64748b' : '#00ff88',
-                    background: mod.status === 'alert' ? 'rgba(255,77,109,0.1)' : mod.status === 'inactive' ? 'rgba(100,116,139,0.1)' : 'rgba(0,255,136,0.1)',
-                    border: `1px solid ${mod.status === 'alert' ? 'rgba(255,77,109,0.3)' : mod.status === 'inactive' ? 'rgba(100,116,139,0.3)' : 'rgba(0,255,136,0.3)'}`,
+                    color: mod.status === 'alert' ? '#ff4d6d' : '#00ff88',
+                    background: mod.status === 'alert' ? 'rgba(255,77,109,0.1)' : 'rgba(0,255,136,0.1)',
+                    border: `1px solid ${mod.status === 'alert' ? 'rgba(255,77,109,0.3)' : 'rgba(0,255,136,0.3)'}`,
                   }}>{mod.status.toUpperCase()}</div>
                 </div>
                 <p style={{ fontSize: 12, color: '#64748b', lineHeight: 1.6, marginBottom: 16 }}>{mod.description}</p>
@@ -695,28 +599,14 @@ export default function Dashboard() {
               </div>
             </div>
             <div style={{ display: 'flex', gap: 16, marginBottom: 16, flexWrap: 'wrap' }}>
-              {trafficHistory.length > 0 ? (
-                dynamicLineData.datasets?.map((d: any, i: number) => (
-                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                    <div style={{ width: 24, height: 3, borderRadius: 2, background: d.borderColor }} />
-                    <span style={{ fontSize: 12, color: '#64748b' }}>{d.label}</span>
-                  </div>
-                ))
-              ) : (
-                <span style={{ fontSize: 12, color: '#64748b' }}>No activity recorded yet</span>
-              )}
-            </div>
-            {trafficHistory.length > 0 ? (
-              <Line data={dynamicLineData} options={chartOpts} />
-            ) : (
-              <div style={{ height: 250, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 12 }}>
-                <div style={{ fontSize: 48, color: '#334155' }}>📊</div>
-                <div style={{ fontSize: 14, color: '#64748b', textAlign: 'center' }}>
-                  No activity data yet.<br/>
-                  Start using File Analysis, Network Monitor, or Email Forensics to see your activity here.
+              {lineData.datasets.map((d, i) => (
+                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <div style={{ width: 24, height: 3, borderRadius: 2, background: d.borderColor }} />
+                  <span style={{ fontSize: 12, color: '#64748b' }}>{d.label}</span>
                 </div>
-              </div>
-            )}
+              ))}
+            </div>
+            <Line data={trafficHistory.length > 0 ? dynamicLineData : lineData} options={chartOpts} />
           </div>
 
           <div className="fade-in" style={{
@@ -731,27 +621,15 @@ export default function Dashboard() {
               <div style={{ fontSize: 11, color: '#475569', letterSpacing: 2, marginBottom: 4, fontWeight: 600 }}>WEEKLY THREATS</div>
               <div style={{ fontSize: 16, fontWeight: 700, color: '#f1f5f9' }}>Threat Frequency</div>
             </div>
-            {networkStats.connections > 0 ? (
-              <>
-                <Bar data={dynamicBarData} options={{ ...chartOpts, plugins: { ...chartOpts.plugins, legend: { display: false } } }} />
-                <div style={{ display: 'flex', gap: 12, marginTop: 16 }}>
-                  {[{ label: 'Critical', color: '#ff4d6d' }, { label: 'Warning', color: '#fbbf24' }, { label: 'Info', color: '#00d4ff' }].map(l => (
-                    <div key={l.label} style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-                      <div style={{ width: 8, height: 8, borderRadius: 2, background: l.color }} />
-                      <span style={{ fontSize: 11, color: '#64748b' }}>{l.label}</span>
-                    </div>
-                  ))}
+            <Bar data={dynamicBarData} options={{ ...chartOpts, plugins: { ...chartOpts.plugins, legend: { display: false } } }} />
+            <div style={{ display: 'flex', gap: 12, marginTop: 16 }}>
+              {[{ label: 'Critical', color: '#ff4d6d' }, { label: 'Warning', color: '#fbbf24' }, { label: 'Info', color: '#00d4ff' }].map(l => (
+                <div key={l.label} style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+                  <div style={{ width: 8, height: 8, borderRadius: 2, background: l.color }} />
+                  <span style={{ fontSize: 11, color: '#64748b' }}>{l.label}</span>
                 </div>
-              </>
-            ) : (
-              <div style={{ height: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 12 }}>
-                <div style={{ fontSize: 36, color: '#334155' }}>📡</div>
-                <div style={{ fontSize: 13, color: '#64748b', textAlign: 'center' }}>
-                  No network data yet.<br/>
-                  Start Network Monitor to see threat frequency.
-                </div>
-              </div>
-            )}
+              ))}
+            </div>
           </div>
         </div>
 
@@ -771,30 +649,22 @@ export default function Dashboard() {
             <span style={{ fontSize: 12, color: '#00d4ff', cursor: 'pointer', fontWeight: 600 }}>View All →</span>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {realAlerts.length > 0 ? (
-              realAlerts.map((a, i) => {
-                const cfg = severityConfig[a.severity];
-                return (
-                  <div key={a.id} className="alert-row" style={{
-                    display: 'flex', alignItems: 'center', gap: 14,
-                    padding: '14px 16px', borderRadius: 12,
-                    background: cfg.bg,
-                    border: `1px solid ${cfg.color}20`,
-                  }}>
-                    <cfg.icon style={{ color: cfg.color, fontSize: 18, flexShrink: 0 }} />
-                    <div style={{ flex: 1, fontSize: 13, color: '#cbd5e1', fontWeight: 500 }}>{a.msg}</div>
-                    <div style={{ fontSize: 11, color: '#475569', flexShrink: 0 }}>{a.time}</div>
-                    <div style={{ padding: '3px 10px', borderRadius: 20, background: `${cfg.color}15`, border: `1px solid ${cfg.color}30`, fontSize: 10, color: cfg.color, fontWeight: 700, letterSpacing: 1, flexShrink: 0 }}>{a.severity.toUpperCase()}</div>
-                  </div>
-                );
-              })
-            ) : (
-              <div style={{ padding: '40px 20px', textAlign: 'center', color: '#64748b' }}>
-                <div style={{ fontSize: 32, marginBottom: 12 }}>🔔</div>
-                <div style={{ fontSize: 14, marginBottom: 8 }}>No alerts yet</div>
-                <div style={{ fontSize: 12 }}>Alerts will appear here when you perform scans or analysis</div>
-              </div>
-            )}
+            {displayAlerts.map((a, i) => {
+              const cfg = severityConfig[a.severity];
+              return (
+                <div key={a.id} className="alert-row" style={{
+                  display: 'flex', alignItems: 'center', gap: 14,
+                  padding: '14px 16px', borderRadius: 12,
+                  background: cfg.bg,
+                  border: `1px solid ${cfg.color}20`,
+                }}>
+                  <cfg.icon style={{ color: cfg.color, fontSize: 18, flexShrink: 0 }} />
+                  <div style={{ flex: 1, fontSize: 13, color: '#cbd5e1', fontWeight: 500 }}>{a.msg}</div>
+                  <div style={{ fontSize: 11, color: '#475569', flexShrink: 0 }}>{a.time}</div>
+                  <div style={{ padding: '3px 10px', borderRadius: 20, background: `${cfg.color}15`, border: `1px solid ${cfg.color}30`, fontSize: 10, color: cfg.color, fontWeight: 700, letterSpacing: 1, flexShrink: 0 }}>{a.severity.toUpperCase()}</div>
+                </div>
+              );
+            })}
           </div>
         </div>
 

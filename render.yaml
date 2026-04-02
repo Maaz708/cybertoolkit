@@ -1,0 +1,33 @@
+# Render.com deployment configuration
+# This file tells Render how to build and run your backend
+
+services:
+  - type: web
+    name: cybertoolkit-api
+    runtime: node
+    buildCommand: npm install
+    startCommand: node server/index.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 24h
+      - key: DATABASE_URL
+        sync: false  # Set this manually in Render dashboard
+      - key: ALLOWED_ORIGINS
+        sync: false  # Set this after frontend deployment: https://your-site.netlify.app
+      - key: REDIS_URL
+        value: redis://localhost:6379  # Using memory fallback
+      - key: FRONTEND_URL
+        value: http://localhost:5173
+      - key: FRONTEND_PROD_URL
+        sync: false  # Set this after frontend deployment
+    disk:
+      name: uploads
+      mountPath: /opt/render/project/src/uploads
+      sizeGB: 1
+    healthCheckPath: /api/health
