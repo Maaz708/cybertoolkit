@@ -1,9 +1,7 @@
 // Central API configuration
-// Uses environment variable or falls back to localhost
+// Uses Vite environment variable or falls back to localhost
 
-declare const __API_URL__: string;
-
-export const API_BASE_URL = typeof __API_URL__ !== 'undefined' ? __API_URL__ : 'http://localhost:5000';
+export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 // Axios default config
 export const apiConfig = {

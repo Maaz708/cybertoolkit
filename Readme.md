@@ -1,264 +1,371 @@
 # Digital Forensics Toolkit
 
-A comprehensive digital forensics tool built with React, Node.js, and Material-UI to provide File Analysis, Network Monitoring, Malware Detection, Email Forensics, and Cloud Forensics capabilities.
+A comprehensive digital forensics platform built with React, Node.js, and Material-UI providing File Analysis, Network Monitoring, Malware Detection, Email Forensics, and File Recovery capabilities.
 
-1 Table of Contents
+## 🚀 Features
 
-Features
-Prerequisites
-Installation
-Usage
-File Analysis
-Network Monitoring
-Malware Detection
-Email Forensics
-Cloud Forensics
-Configuration
-Troubleshooting
-Security
-Support
-License
-Features
+### 🔍 File Analysis
+- **Metadata Extraction**: Extract detailed file metadata and properties
+- **Content Inspection**: Perform in-depth content analysis
+- **Hash Generation**: Generate MD5, SHA-1, and SHA-256 hashes
+- **Timeline Analysis**: View file creation, modification, and access times
+- **Multi-Format Support**: Analyze various file formats
+- **Report Generation**: Generate detailed analysis reports
 
-1. File Analysis
-Metadata Extraction: Extract detailed file metadata.
-Content Inspection: Perform in-depth content analysis.
-Hash Generation: Generate MD5, SHA-1, and SHA-256 hashes.
-Timeline Analysis: View file creation, modification, and access times.
-File Recovery: Recover deleted or corrupted files.
-Multi-Format Support: Analyze various file formats.
-Report Generation: Generate detailed analysis reports.
+### 🌐 Network Monitoring
+- **Real-time Traffic Analysis**: Monitor network traffic live with WebSocket updates
+- **Protocol Analysis**: Analyze network protocol distribution
+- **Connection Tracking**: Track active connections and bandwidth usage
+- **Security Alerts**: Get real-time security alerts with severity scoring
+- **Port Scanning Detection**: Identify port scanning activities
+- **Historical Data Analysis**: Review historical network activity with charts
+- **Hacker Map**: Visualize attack origins on world map
 
-2. Network Monitoring
-Real-time Traffic Analysis: Monitor network traffic live.
-Protocol Analysis: Analyze network protocol distribution.
-Connection Tracking: Track active connections.
-Bandwidth Monitoring: Measure network bandwidth usage.
-Security Alerts: Get real-time security alerts.
-Port Scanning Detection: Identify port scanning activities.
-Historical Data Analysis: Review historical network activity data.
+### 🛡️ Malware Detection
+- **Real-time Scanning**: Monitor files continuously
+- **Signature Matching**: Detect known malware signatures
+- **Behavioral Analysis**: Identify suspicious patterns
+- **File Quarantine**: Isolate suspicious files
+- **Threat Reports**: Generate detailed threat analysis reports
+- **VirusTotal Integration**: Check files against VirusTotal database
 
-3. Malware Detection
-Real-time Scanning: Monitor files continuously.
-Signature Matching: Detect known malware signatures.
-Behavioral Analysis: Identify suspicious patterns.
-File Quarantine: Isolate suspicious files.
-Automated Response: Take immediate action against threats.
-Threat Reports: Generate detailed threat analysis reports.
+### 📧 Email Forensics
+- **Header Analysis**: Analyze email headers for authenticity
+- **Attachment Scanning**: Check attachments for malware
+- **Phishing Detection**: Identify phishing attempts
+- **Timeline Reconstruction**: Rebuild email timelines
+- **Metadata Extraction**: Extract relevant email metadata
+- **SPF/DKIM Verification**: Validate email authentication
 
-4. Email Forensics
-Header Analysis: Analyze email headers for authenticity.
-Attachment Scanning: Check attachments for malware.
-Phishing Detection: Identify phishing attempts.
-Timeline Reconstruction: Rebuild email timelines.
-Metadata Extraction: Extract relevant email metadata.
-Server Log Analysis: Examine email server activity logs.
+### 💾 File Recovery
+- **Deleted File Recovery**: Restore accidentally deleted files
+- **Corrupted File Repair**: Attempt to repair damaged files
+- **Deep Scan**: Perform thorough disk scans
+- **Preview Files**: Preview recoverable files before recovery
+- **Multiple Formats**: Support for various file types
 
-5. Cloud Forensics
-Storage Analysis: Analyze cloud storage data.
-Access Logs: Review access patterns.
-Data Recovery: Restore deleted or corrupted cloud data.
-User Activity Tracking: Monitor user actions.
-Provider Integration: Support for major cloud providers.
-Timeline Reconstruction: Analyze cloud activity history.
+## 🛠️ Tech Stack
 
-## Required Software & Downloads
+### Frontend
+- **React 18** - Modern React with hooks
+- **TypeScript** - Type-safe development
+- **Material-UI (MUI)** - Modern UI components
+- **React Router** - Client-side routing
+- **Axios** - HTTP client
+- **Recharts** - Data visualization
+- **Socket.io Client** - Real-time updates
 
-### Core Software
+### Backend
+- **Node.js** - JavaScript runtime
+- **Express.js** - Web framework
+- **Socket.io** - Real-time WebSocket server
+- **PostgreSQL** - Primary database
+- **Redis** - Caching (with memory fallback)
+- **JWT** - Authentication
+- **Winston** - Logging
+- **Swagger** - API documentation
 
-1. Node.js (v18.x or higher)
-   - Download: <https://nodejs.org/en/download>
-   - Guide: <https://docs.npmjs.com/downloading-and-installing-node-js-and-npm>
+### DevOps & Deployment
+- **Render.com** - Backend hosting (free tier)
+- **Netlify** - Frontend hosting (free tier)
+- **Supabase** - Database hosting (free tier)
+- **Vite** - Build tool
+- **Docker** - Containerization support
 
-2. Git
-   - Windows: <https://git-scm.com/download/win>
-   - Mac: <https://git-scm.com/download/mac>
-   - Linux: `sudo apt-get install git`
+## 📋 Prerequisites
 
-3. Visual Studio Code (Recommended IDE)
-   - Download: <https://code.visualstudio.com/download>
+### System Requirements
+- **Operating System**: Windows 10/11, Linux, or macOS
+- **RAM**: 8GB minimum (16GB recommended)
+- **Disk Space**: 10GB free
+- **Node.js**: v18.x or higher
+- **Git**: Latest version
 
-### Package Managers
+### Required Software
+1. **Node.js** - [Download here](https://nodejs.org/en/download)
+2. **Git** - [Download here](https://git-scm.com/downloads)
+3. **VS Code** (Recommended) - [Download here](https://code.visualstudio.com/download)
 
-- npm (comes with Node.js)
-- yarn (optional): <https://yarnpkg.com/getting-started/install>
+## 🚀 Quick Start
 
-## Dependencies Installation
+### 1. Clone Repository
+```bash
+git clone https://github.com/Maaz708/cybertoolkit.git
+cd cybertoolkit
+```
 
-### Backend Packages
+### 2. Install Dependencies
+```bash
+# Install all dependencies (frontend + backend)
+npm install
+```
 
-bash
-npm install express@latest
-npm install express-fileupload@latest
-npm install cors@latest
-npm install dotenv@latest
+### 3. Environment Setup
+```bash
+# Copy environment template
+cp .env.example .env
 
-### Frontend Packages
+# Edit .env with your configuration
+# Default values work for local development
+```
 
-bash
-npm install react@latest
-npm install @mui/material @emotion/react @emotion/styled
-npm install @mui/icons-material
-npm install axios@latest
-npm install typescript@latest
+### 4. Start Development Server
+```bash
+# Start backend server
+npm run start
 
-## Development Tools
+# In new terminal, start frontend
+npm run dev
+```
 
-1. Postman (API Testing)
-   - Download: <https://www.postman.com/downloads/>
+### 5. Access Application
+- **Frontend**: http://localhost:5173
+- **Backend API**: http://localhost:5000
+- **API Docs**: http://localhost:5000/api-docs
 
-2. MongoDB Compass (Optional - if using MongoDB)
-   - Download: <https://www.mongodb.com/try/download/compass>
+## 🗄️ Database Setup
 
-## Browser Requirements
+### Option 1: PostgreSQL (Recommended)
+```bash
+# Install PostgreSQL
+# Windows: https://www.postgresql.org/download/windows/
+# Mac: brew install postgresql
+# Linux: sudo apt-get install postgresql postgresql-contrib
 
-- Chrome (Recommended): <https://www.google.com/chrome/>
-- Firefox: <https://www.mozilla.org/firefox/>
-- Edge: <https://www.microsoft.com/edge>
+# Create database
+createdb cybertoolkit
 
-# Prerequisites
+# Run setup script
+psql -d cybertoolkit -f server/database/init.sql
+```
 
-System Requirements
+### Option 2: In-Memory (Development Only)
+The app automatically falls back to in-memory storage if PostgreSQL is not available.
 
-Operating System: Windows 10/11, Linux, or macOS
-RAM: 8GB minimum
-Disk Space: 50GB free
-Admin Privileges
-Software Requirements
-Node.js (v14.0.0 or higher)
-Python (v3.8 or higher)
-Git
-MongoDB (v4.4 or higher)
-Visual Studio Code
-Installation
-Clone the Repository:
+## 🔧 Configuration
 
-bash
+### Environment Variables
+```bash
+# Server Configuration
+PORT=5000
+NODE_ENV=development
 
-git clone <https://github.com/username/digital-forensics-toolkit.git>  
-cd digital-forensics-toolkit  
+# Database
+DATABASE_URL=postgresql://postgres:password@localhost:5432/cybertoolkit
 
-Install Backend Dependencies:
+# JWT
+JWT_SECRET=your-super-secret-jwt-key
+JWT_EXPIRES_IN=24h
 
-bash
+# CORS
+FRONTEND_URL=http://localhost:5173
+ALLOWED_ORIGINS=http://localhost:5173,http://localhost:3000
 
-cd server  
-npm install express cors systeminformation nodemailer multer crypto axios express-fileupload node-yara @azure/storage-blob aws-sdk mongodb mongoose
+# Redis (Optional - uses memory fallback if not available)
+REDIS_URL=redis://localhost:6379
+```
 
-Install Frontend Dependencies:
+## 🚀 Deployment
 
-bash
+### Production Deployment (Free Tier)
 
-cd ../client  
-npm install @mui/material @mui/icons-material @emotion/react @emotion/styled recharts @mui/x-date-pickers dayjs axios react-router-dom  
+#### 1. Backend (Render.com)
+```bash
+# Push to GitHub
+git add .
+git commit -m "Ready for deployment"
+git push origin main
 
-[optional for cloud forensics]
-{Set Up Environment Variables:
-Create a .env file in the server directory:
+# Deploy to Render
+# 1. Go to render.com
+# 2. New Web Service → Connect GitHub
+# 3. Use render.yaml blueprint
+# 4. Add environment variables
+```
 
-env
+#### 2. Database (Supabase)
+```bash
+# 1. Create free project at supabase.com
+# 2. Run SQL from server/database/init.sql
+# 3. Copy connection string to Render env vars
+```
 
-Copy code
-PORT=3000  
-MONGODB_URI=mongodb://localhost:27017/forensics  
-AWS_ACCESS_KEY=your_aws_key  
-AWS_SECRET_KEY=your_aws_secret  
-AZURE_STORAGE_CONNECTION_STRING=your_azure_connection  }
+#### 3. Frontend (Netlify)
+```bash
+# Build and deploy
+npm run build
+npx netlify-cli deploy --prod --dir=dist
+```
 
-Start the Application:
+### Environment Variables for Production
+```bash
+DATABASE_URL=postgresql://postgres:password@db.xxxxx.supabase.co:5432/postgres
+JWT_SECRET=your-256-bit-secret-key
+ALLOWED_ORIGINS=https://your-site.netlify.app
+FRONTEND_PROD_URL=https://your-site.netlify.app
+```
 
-bash
+## 📖 API Documentation
 
-# Start MongoDB  
+### Authentication
+All protected routes require JWT token:
+```bash
+# Login
+POST /api/auth/login
+{
+  "email": "admin@cybertoolkit.com",
+  "password": "admin123"
+}
 
-mongod  or if u have mongo db compass add new connection
+# Get token in response, use in Authorization header
+Authorization: Bearer <token>
+```
 
-# Start Backend  
+### Key Endpoints
+- `GET /api/network/status` - Network monitoring status
+- `GET /api/network/analytics` - Network analytics data
+- `GET /api/network/alerts` - Security alerts
+- `POST /api/malware/scan` - Scan files for malware
+- `POST /api/email/analyze` - Analyze email files
+- `POST /api/recovery/recover` - Recover files
 
-cd server  
-node index.js  
+Full API documentation available at: `/api-docs`
 
-# Start Frontend  
+## 🧪 Testing
 
-cd ../client  
-npm run dev  
+### Run Tests
+```bash
+# Run all tests
+npm test
 
-Usage
-File Analysis
-Navigate to the File Analysis tab.
-Upload files via drag-and-drop or the file selector.
-Review analysis results on the dashboard.
-Network Monitoring
-Go to the Network Monitoring tab.
-Start monitoring and review real-time stats.
-Export network analysis reports if needed.
-Malware Detection
-Choose files/directories to scan.
-Select the scan type and review threats.
-Take recommended actions.
-Email Forensics
-Import email files.
-Analyze headers and attachments.
-Generate detailed forensic reports.
-Cloud Forensics
-Connect cloud services.
-Select data sources for analysis.
-Export findings as reports.
-Configuration
+# Run tests with coverage
+npm run test:coverage
+```
 
-# Backend
+### Manual Testing
+1. **File Analysis**: Upload test files and verify metadata extraction
+2. **Network Monitoring**: Start monitoring and check real-time updates
+3. **Malware Detection**: Upload EICAR test file for detection
+4. **Email Analysis**: Test with sample .eml files
 
-javascript
+## 🔒 Security Features
 
-// server/config/default.js  
-module.exports = {  
-  port: process.env.PORT || 3000,  
-  mongodb: process.env.MONGODB_URI,  
-  aws: {  
-    accessKey: process.env.AWS_ACCESS_KEY,  
-    secretKey: process.env.AWS_SECRET_KEY,  
-  },  
-  azure: {  
-    connectionString: process.env.AZURE_STORAGE_CONNECTION_STRING,  
-  },  
-};  
+- **JWT Authentication**: Secure token-based authentication
+- **Rate Limiting**: Prevent API abuse
+- **CORS Protection**: Cross-origin request security
+- **Input Validation**: Joi validation for all inputs
+- **Helmet.js**: Security headers
+- **File Upload Security**: Multer with type restrictions
+- **SQL Injection Protection**: Parameterized queries
 
-# Frontend
+## 🐛 Troubleshooting
 
-javascript
+### Common Issues
 
-// client/src/config/config.js  
-export const API_BASE_URL = '<http://localhost:3000>';  
-export const SOCKET_URL = 'ws://localhost:3000';  
-Troubleshooting
-Connection Issues:
+#### Server Won't Start
+```bash
+# Check if port is in use
+netstat -ano | findstr :5000
 
-Ensure MongoDB is running.
-Verify backend server status.
-Check for port conflicts.
-File Upload Errors:
+# Kill process on Windows
+taskkill /PID <PID> /F
+```
 
-Verify file size and permissions.
-Check supported file formats.
-Network Monitoring Failures:
+#### Database Connection Failed
+```bash
+# Check PostgreSQL is running
+pg_isready
 
-Run as administrator.
-Verify firewall settings.
-Security
-Follow best practices:
-Keep software updated.
-Encrypt sensitive data.
-Implement role-based access control.
-Regularly audit logs.
+# Check database exists
+psql -l
 
-Support
-<maaz7084@gmail.com>
+# Reset database
+dropdb cybertoolkit && createdb cybertoolkit
+```
 
-Documentation: Refer to the official docs.
-Issues: Report via GitHub.
-Contact: Email <maaz7084@gmail.com>
-License
-This project is licensed under the MIT License.
+#### Frontend Build Errors
+```bash
+# Clear cache
+rm -rf node_modules package-lock.json
+npm install
 
-Last updated: November 18, 2024
-Created by Mohd Maaz
+# Check TypeScript errors
+npx tsc --noEmit
+```
+
+#### Login Issues
+1. Check if backend is running
+2. Verify CORS settings
+3. Check JWT secret in .env
+4. Clear browser localStorage
+
+### Performance Optimization
+- Enable Redis caching for better performance
+- Use CDN for static assets in production
+- Implement database indexing
+- Monitor memory usage with PM2
+
+## 📊 Monitoring & Logging
+
+### Application Logs
+```bash
+# View logs
+tail -f logs/app.log
+
+# Error logs only
+tail -f logs/error.log
+```
+
+### Health Check
+```bash
+# API health check
+curl http://localhost:5000/api/health
+
+# Database health check
+curl http://localhost:5000/api/health/db
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create feature branch: `git checkout -b feature/amazing-feature`
+3. Commit changes: `git commit -m 'Add amazing feature'`
+4. Push to branch: `git push origin feature/amazing-feature`
+5. Open Pull Request
+
+### Development Guidelines
+- Follow TypeScript best practices
+- Write meaningful commit messages
+- Add tests for new features
+- Update documentation
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 📞 Support
+
+- **Creator**: Mohd Maaz
+- **Email**: maaz7084@gmail.com
+- **GitHub**: [@Maaz708](https://github.com/Maaz708)
+- **Issues**: [Report on GitHub](https://github.com/Maaz708/cybertoolkit/issues)
+
+## 🗺️ Roadmap
+
+### Upcoming Features
+- [ ] Cloud provider integrations (AWS, Azure, GCP)
+- [ ] Advanced malware analysis with YARA rules
+- [ ] Machine learning for anomaly detection
+- [ ] Mobile app version
+- [ ] Multi-tenant support
+- [ ] Advanced reporting dashboard
+
+### Version History
+- **v1.0.0** - Initial release with core forensics features
+- **v1.1.0** - Added real-time monitoring and WebSocket support
+- **v1.2.0** - Enhanced security and deployment automation
+
+---
+
+**Last updated**: December 2024  
+**Built with ❤️ by Mohd Maaz**
