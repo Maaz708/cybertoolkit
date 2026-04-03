@@ -3,8 +3,6 @@ import { useNavigate, Link } from 'react-router-dom';
 import { Security, Email, Lock, Visibility, VisibilityOff } from '@mui/icons-material';
 import { useAuth } from '../contexts/AuthContext';
 
-const API_BASE_URL = 'http://localhost:5000';
-
 interface LoginFormData {
   email: string;
   password: string;
