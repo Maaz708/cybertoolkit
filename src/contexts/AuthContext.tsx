@@ -74,6 +74,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, []);
 
   const login = async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
+    console.log('🔍 API URL being used:', API_BASE_URL);
     try {
       const response = await axios.post(`${API_BASE_URL}/api/auth/login`, {
         email,
@@ -107,6 +108,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   };
 
   const register = async (userData: RegisterData): Promise<{ success: boolean; error?: string }> => {
+    console.log('🔍 Register API URL being used:', API_BASE_URL);
     try {
       const response = await axios.post(`${API_BASE_URL}/api/auth/register`, userData);
 

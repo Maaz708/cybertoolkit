@@ -102,10 +102,10 @@ export class FileStorageManager {
                 success: true,
                 recoveredPath
             };
-        } catch (error) {
+        } catch (error: any) {
             return {
                 success: false,
-                error: error.message
+                error: error?.message || 'Unknown error occurred'
             };
         }
     }
