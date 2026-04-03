@@ -63,6 +63,9 @@ const swaggerDocument = require('./swagger.json');
 const app = express();
 const server = http.createServer(app);
 
+// Trust proxy for rate limiting (fixes X-Forwarded-For header error)
+app.set('trust proxy', 1);
+
 // Global monitoring state
 let monitoringInterval = null;
 let isMonitoring = false;

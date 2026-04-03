@@ -80,8 +80,12 @@ const authenticateToken = (req, res, next) => {
 
 // Set user context for Row Level Security
 const setUserContext = async (req, res, next) => {
-  if (req.user) {
-    await pool.query('SET app.current_user_id = $1', [req.user.userId]);
+  try {
+    if (req.user && pool) {
+      await pool.query('SET app.current_user_id = $1', [req.user.userId]);
+    }
+  } catch (error) {
+    console.log('⚠️ Skipping DB context (no connection)');
   }
   next();
 };

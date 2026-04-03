@@ -4,6 +4,8 @@ module.exports = {
     host: process.env.HOST || 'localhost'
   },
   database: {
+    // Use DATABASE_URL if available (Supabase), otherwise use individual params
+    connectionString: process.env.DATABASE_URL,
     host: process.env.DB_HOST || 'localhost',
     port: process.env.DB_PORT || 5433,
     name: process.env.DB_NAME || 'cybertoolkit',

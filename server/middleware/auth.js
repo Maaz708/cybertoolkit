@@ -7,11 +7,15 @@ let pool;
 try {
   const { Pool } = require('pg');
   pool = new Pool({
+    connectionString: process.env.DATABASE_URL || null,
     host: process.env.DB_HOST || 'localhost',
     port: process.env.DB_PORT || 5433,
     database: process.env.DB_NAME || 'cybertoolkit',
     user: process.env.DB_USER || 'postgres',
     password: process.env.DB_PASSWORD,
+    ssl: process.env.DATABASE_URL ? {
+      rejectUnauthorized: false
+    } : false
   });
 } catch (error) {
   console.log('⚠️  Auth middleware using memory storage');
