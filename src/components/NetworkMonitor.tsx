@@ -137,7 +137,10 @@ const NetworkMonitor = () => {
   const [timeLabels, setTimeLabels] = useState<string[]>([]);
 
   useEffect(() => {
-    const ws = new WebSocket("ws://localhost:8080");
+    const wsUrl = import.meta.env.VITE_API_URL 
+      ? import.meta.env.VITE_API_URL.replace('http', 'ws').replace('https', 'wss')
+      : 'ws://localhost:8080';
+    const ws = new WebSocket(wsUrl);
     ws.onopen = () => console.log('Connected to Network Monitor WebSocket');
     ws.onmessage = (event) => {
       try {

@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Security, Email, Lock, Person, Business, Visibility, VisibilityOff } from '@mui/icons-material';
 import axios from 'axios';
-
-const API_BASE_URL = 'http://localhost:5000';
+import { API_BASE_URL } from '../config/api';
 
 interface RegisterFormData {
   email: string;

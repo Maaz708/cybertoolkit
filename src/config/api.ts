@@ -3,6 +3,9 @@
 
 export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
+// Debug log to verify API URL
+console.log('🔍 API_BASE_URL loaded:', API_BASE_URL);
+
 // Axios default config
 export const apiConfig = {
   baseURL: API_BASE_URL,

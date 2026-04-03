@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
+import { API_BASE_URL } from '../config/api';
 import {
   Security, Storage, NetworkCheck, Email, Cloud, Shield, BugReport, Fingerprint,
   Assessment, Warning, CheckCircle, ErrorOutline, TrendingUp, Menu,
@@ -11,8 +12,6 @@ import { Line, Doughnut, Bar } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
 
 Chart.register(...registerables);
-
-const API_BASE_URL = 'http://localhost:5000';
 
 const lineData = {
   labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
