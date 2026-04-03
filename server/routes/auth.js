@@ -1,28 +1,12 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { Pool } = require('pg');
-const router = express.Router();
-const config = require('../config');
+const { getPool } = require('../utils/database');
 const logger = require('../utils/logger');
 const { validate } = require('../utils/validation');
 
-// PostgreSQL connection - with fallback for development
-let pool;
-try {
-  const { Pool } = require('pg');
-  pool = new Pool({
-    host: config.database.host,
-    port: config.database.port,
-    database: config.database.name,
-    user: config.database.user,
-    password: config.database.password,
-  });
-  console.log('✅ PostgreSQL connection configured');
-} catch (error) {
-  console.log('⚠️  PostgreSQL not available, using memory storage');
-  pool = null;
-}
+// Get database pool
+const pool = getPool();
 
 // In-memory storage for development (fallback)
 const memoryStorage = {
