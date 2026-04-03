@@ -1686,3 +1686,9 @@
 2026-04-02 17:21:24 [[32minfo[39m]: HTTP Request
 2026-04-02 17:21:31 [[32minfo[39m]: HTTP Request
 2026-04-02 17:24:54 [[32minfo[39m]: Received SIGINT, starting graceful shutdown
+2026-04-03 15:06:26 [[32minfo[39m]: WebSocket server started on ws://localhost:8080
+2026-04-03 15:06:26 [[32minfo[39m]: 🚀 CyberToolkit Server Started Successfully
+2026-04-03 15:06:26 [[33mwarn[39m]: Redis error, using memory cache fallback
+2026-04-03 15:07:01 [[32minfo[39m]: HTTP Request
+2026-04-03 15:07:01 [[33mwarn[39m]: Login attempt with non-existent email
+2026-04-03 15:07:01 [[33mwarn[39m]: HTTP Request Error

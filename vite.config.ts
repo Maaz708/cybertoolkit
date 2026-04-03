@@ -42,9 +42,6 @@ export default defineConfig(({ mode }) => {
           }
         }
       }
-    },
-    define: {
-      __API_URL__: JSON.stringify(API_URL),
     }
   }
 })
