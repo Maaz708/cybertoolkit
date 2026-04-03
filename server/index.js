@@ -1,4 +1,4 @@
-require('dotenv').config({ path: '../.env' });
+require('dotenv').config();
 console.log('🔧 Environment variables loaded:', Object.keys(process.env).filter(key => key.includes('PORT') || key.includes('JWT') || key.includes('DB')).length);
 
 const express = require('express');
