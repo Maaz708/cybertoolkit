@@ -187,8 +187,8 @@ dirs.forEach(dir => {
   }
 });
 
-// 🌐 WebSocket server for real-time updates (Legacy - kept for compatibility)
-const wss = new WebSocket.Server({ port: config.websocket.port });
+// 🌐 WebSocket server for real-time updates (attached to HTTP server)
+const wss = new WebSocket.Server({ server });
 
 // NEW: Socket.io Real-time Service
 const realtimeService = new RealtimeService(server, {
@@ -236,7 +236,7 @@ wss.on('connection', (ws, req) => {
 
 });
 
-logger.info(`WebSocket server started on ws://localhost:${config.websocket.port}`);
+logger.info(`WebSocket server attached to HTTP server`);
 
 // File Recovery Route
 app.post('/api/recovery/recover', upload.single('file'), async (req, res) => {
@@ -369,7 +369,16 @@ app.use((err, req, res, next) => {
 });
 
 // Server Startup
-const PORT = config.server.port;
+const PORT = process.env.PORT || 10000;
+
+// Create directories if they don't exist
+const fs = require('fs');
+const requiredDirs = ['uploads', 'server/storage/recovered'];
+requiredDirs.forEach(dir => {
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
+});
 
 const gracefulShutdown = (signal) => {
   logger.info(`Received ${signal}, starting graceful shutdown`);
@@ -409,11 +418,11 @@ process.on('unhandledRejection', (reason, promise) => {
   process.exit(1);
 });
 
-server.listen(PORT, () => {
+server.listen(PORT, '0.0.0.0', () => {
   logger.info(`🚀 CyberToolkit Server Started Successfully`, {
     port: PORT,
     nodeEnv: config.NODE_ENV,
-    websocketPort: config.websocket.port,
+    websocketPort: 'Attached to HTTP server',
     timestamp: new Date().toISOString()
   });
 });
