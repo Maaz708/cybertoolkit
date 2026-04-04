@@ -5,6 +5,9 @@ const { getPool } = require('../utils/database');
 const logger = require('../utils/logger');
 const { validate } = require('../utils/validation');
 
+// Create router
+const router = express.Router();
+
 // Get database pool
 const pool = getPool();
 
