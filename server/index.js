@@ -214,7 +214,9 @@ wss.on('connection', (ws, req) => {
     try {
       // Only send updates if monitoring is active
       if (isMonitoring) {
-        const data = await monitor.getNetworkStatus();
+        // TODO: Define monitor or replace with actual implementation
+        // const data = await monitor.getNetworkStatus();
+        const data = { status: 'active', timestamp: new Date().toISOString() };
         
         ws.send(JSON.stringify({
           type: "NETWORK_UPDATE",
@@ -404,19 +406,24 @@ const gracefulShutdown = (signal) => {
 process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
 process.on('SIGINT', () => gracefulShutdown('SIGINT'));
 
-// Handle uncaught exceptions
+// Handle uncaught exceptions (TEMP: Don't exit to see actual error)
 process.on('uncaughtException', (error) => {
-  logger.error('Uncaught Exception', { error: error.message, stack: error.stack });
-  process.exit(1);
+  logger.error('💥 UNCAUGHT EXCEPTION', { error: error.message, stack: error.stack });
+  console.error('💥 UNCAUGHT EXCEPTION:', error);
+  // process.exit(1); // TEMP: Commented out for debugging
 });
 
-// Handle unhandled promise rejections
+// Handle unhandled promise rejections (TEMP: Don't exit to see actual error)
 process.on('unhandledRejection', (reason, promise) => {
-  logger.error('Unhandled Rejection', { reason, promise });
-  process.exit(1);
+  logger.error('💥 UNHANDLED REJECTION', { reason, promise });
+  console.error('💥 UNHANDLED REJECTION:', reason);
+  // process.exit(1); // TEMP: Commented out for debugging
 });
+
+console.log('🔥 About to start server on port:', PORT);
 
 server.listen(PORT, '0.0.0.0', () => {
+  console.log('✅ SERVER STARTED SUCCESSFULLY');
   logger.info(`🚀 CyberToolkit Server Started Successfully`, {
     port: PORT,
     nodeEnv: config.NODE_ENV,
