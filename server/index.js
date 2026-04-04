@@ -5,7 +5,6 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
-const fsSync = require('fs');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 
@@ -182,8 +181,8 @@ app.get('/api/network/status', async (req, res) => {
 const dirs = ['uploads', 'uploads/malware_scans', 'tmp', 'storage/recovered', 'logs'];
 dirs.forEach(dir => {
   const dirPath = path.join(__dirname, dir);
-  if (!fsSync.existsSync(dirPath)) {
-    fsSync.mkdirSync(dirPath, { recursive: true });
+  if (!fs.existsSync(dirPath)) {
+    fs.mkdirSync(dirPath, { recursive: true });
   }
 });
 
@@ -261,8 +260,8 @@ app.post('/api/recovery/recover', upload.single('file'), async (req, res) => {
 
     // Create uploads directory if it doesn't exist
     const uploadsDir = path.join(__dirname, 'uploads');
-    if (!fsSync.existsSync(uploadsDir)) {
-      fsSync.mkdirSync(uploadsDir, { recursive: true });
+    if (!fs.existsSync(uploadsDir)) {
+      fs.mkdirSync(uploadsDir, { recursive: true });
     }
 
     // File is already saved by multer to its destination, just use it directly
@@ -283,8 +282,8 @@ app.post('/api/recovery/recover', upload.single('file'), async (req, res) => {
 
     // Save recovered file
     const recoveredDir = path.join(__dirname, 'storage', 'recovered');
-    if (!fsSync.existsSync(recoveredDir)) {
-      fsSync.mkdirSync(recoveredDir, { recursive: true });
+    if (!fs.existsSync(recoveredDir)) {
+      fs.mkdirSync(recoveredDir, { recursive: true });
     }
 
     const recoveredPath = path.join(recoveredDir, uploadedFile.originalname);
@@ -331,7 +330,7 @@ app.get('/api/recovery/download/:filename', async (req, res) => {
     console.log('Download requested for:', filename);
     console.log('Looking for file at:', filePath);
 
-    if (!fsSync.existsSync(filePath)) {
+    if (!fs.existsSync(filePath)) {
       console.log('File not found at:', filePath);
       return res.status(404).json({
         status: 'error',
