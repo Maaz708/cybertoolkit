@@ -6,13 +6,16 @@
 
 const express = require('express');
 const router = express.Router();
-const { Pool } = require('pg');
+const { getPool } = require('../utils/database');
 const logger = require('../utils/logger');
 const { authenticateToken, setUserContext } = require('../middleware/auth');
 const responseFormatter = require('../utils/responseFormatter');
 const DataTransformer = require('../utils/dataTransformer');
 const cache = require('../services/cacheService');
 const rateLimit = require('../middleware/rateLimit');
+
+// Get database pool
+const pool = getPool();
 
 // Initialize services - per-user instances
 const SmartAlertSystem = require('../services/smartAlertSystem');
@@ -34,23 +37,6 @@ function getUserServices(userId) {
     alertSystem: userAlertSystems.get(userId),
     analytics: userAnalytics.get(userId)
   };
-}
-
-// PostgreSQL connection
-let pool;
-try {
-  const { Pool } = require('pg');
-  pool = new Pool({
-    host: process.env.DB_HOST || 'localhost',
-    port: process.env.DB_PORT || 5433,
-    database: process.env.DB_NAME || 'cybertoolkit',
-    user: process.env.DB_USER || 'postgres',
-    password: process.env.DB_PASSWORD,
-  });
-  console.log('✅ Network routes database connection configured');
-} catch (error) {
-  console.log('⚠️  Network routes using memory storage');
-  pool = null;
 }
 
 // In-memory storage for development (fallback)

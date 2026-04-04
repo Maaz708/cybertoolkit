@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Pool } = require('pg');
+const { getPool } = require('../utils/database');
 const logger = require('../utils/logger');
 const { authenticateToken, setUserContext } = require('../middleware/auth');
 const multer = require('multer');
@@ -23,22 +23,8 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// PostgreSQL connection
-let pool;
-try {
-  const { Pool } = require('pg');
-  pool = new Pool({
-    host: process.env.DB_HOST || 'localhost',
-    port: process.env.DB_PORT || 5433,
-    database: process.env.DB_NAME || 'cybertoolkit',
-    user: process.env.DB_USER || 'postgres',
-    password: process.env.DB_PASSWORD,
-  });
-  console.log('✅ Email forensics routes database connection configured');
-} catch (error) {
-  console.log('⚠️  Email forensics routes using memory storage');
-  pool = null;
-}
+// Get database pool
+const pool = getPool();
 
 // In-memory storage for development (fallback)
 const memoryStorage = {
