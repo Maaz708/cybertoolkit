@@ -1699,3 +1699,11 @@
 2026-04-03 15:23:18 [[33mwarn[39m]: Validation Error
 2026-04-03 15:23:18 [[33mwarn[39m]: HTTP Request Error
 2026-04-03 15:25:04 [[32minfo[39m]: Received SIGINT, starting graceful shutdown
+2026-04-04 06:42:58 [[32minfo[39m]: WebSocket server attached to HTTP server
+2026-04-04 06:42:58 [[32minfo[39m]: 🚀 CyberToolkit Server Started Successfully
+2026-04-04 06:42:58 [[33mwarn[39m]: Redis error, using memory cache fallback
+2026-04-04 06:43:04 [[32minfo[39m]: Received SIGINT, starting graceful shutdown
+2026-04-04 06:52:22 [[32minfo[39m]: WebSocket server attached to HTTP server
+2026-04-04 06:52:22 [[32minfo[39m]: 🚀 CyberToolkit Server Started Successfully
+2026-04-04 06:52:22 [[33mwarn[39m]: Redis error, using memory cache fallback
+2026-04-04 06:52:26 [[32minfo[39m]: Received SIGINT, starting graceful shutdown

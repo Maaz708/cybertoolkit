@@ -354,6 +354,8 @@ app.get('/api/recovery/download/:filename', async (req, res) => {
 
 // Global Error Handling
 app.use((err, req, res, next) => {
+  console.error("💥 FULL ERROR:", err); // 👈 ADD THIS
+  
   logger.error('Unhandled server error', {
     error: err.message,
     stack: err.stack,

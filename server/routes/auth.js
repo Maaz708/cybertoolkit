@@ -185,6 +185,10 @@ router.post('/register', validate('register'), async (req, res) => {
 router.post('/login', validate('login'), async (req, res) => {
   try {
     const { email, password } = req.body;
+    
+    console.log("👉 LOGIN HIT");
+    console.log("👉 EMAIL:", email);
+    console.log("👉 POOL STATUS:", pool ? "Connected" : "Null/Fallback");
 
     let user;
 
