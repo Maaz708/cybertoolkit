@@ -1,30 +1,22 @@
 const { Pool } = require('pg');
 
-// Centralized database connection
+// Centralized database connection - ONLY uses DATABASE_URL
 let pool;
 
 const initDatabase = () => {
   try {
-    if (process.env.DATABASE_URL) {
-      // Use Supabase connection string
-      pool = new Pool({
-        connectionString: process.env.DATABASE_URL,
-        ssl: {
-          rejectUnauthorized: false
-        }
-      });
-      console.log('✅ Database connected via DATABASE_URL (Supabase)');
-    } else {
-      // Use individual environment variables (local development)
-      pool = new Pool({
-        host: process.env.DB_HOST || 'localhost',
-        port: process.env.DB_PORT || 5433,
-        database: process.env.DB_NAME || 'cybertoolkit',
-        user: process.env.DB_USER || 'postgres',
-        password: process.env.DB_PASSWORD,
-      });
-      console.log('✅ Database connected via individual params (Local)');
+    if (!process.env.DATABASE_URL) {
+      throw new Error('DATABASE_URL environment variable is required');
     }
+    
+    // Use Supabase connection string ONLY
+    pool = new Pool({
+      connectionString: process.env.DATABASE_URL,
+      ssl: {
+        rejectUnauthorized: false
+      }
+    });
+    console.log('✅ Database connected via DATABASE_URL (Supabase)');
   } catch (error) {
     console.error('❌ Database connection failed:', error.message);
     pool = null;
