@@ -197,7 +197,7 @@ router.post('/login', validate('login'), async (req, res) => {
       try {
         const result = await pool.query(
           `SELECT id, email, password_hash, first_name, last_name, role, subscription_tier, is_active 
-           FROM users WHERE email = $1`,
+           FROM public.users WHERE email = $1`,
           [email.toLowerCase()]
         );
 
@@ -211,32 +211,19 @@ router.post('/login', validate('login'), async (req, res) => {
 
         user = result.rows[0];
       } catch (dbError) {
-        console.log('⚠️  PostgreSQL error, falling back to memory storage');
-        pool = null; // Disable PostgreSQL for future requests
-      }
-    }
-
-    if (!pool) {
-      // Use memory storage
-      const storedUser = memoryStorage.users.find(u => u.email === email.toLowerCase());
-      if (!storedUser) {
-        logger.warn('Login attempt with non-existent email', { email, ip: req.ip });
-        return res.status(401).json({
+        console.error('❌ DATABASE ERROR in login:', dbError.message);
+        return res.status(500).json({
           success: false,
-          error: 'Invalid email or password'
+          error: 'Database connection error'
         });
       }
-
-      user = {
-        id: storedUser.id,
-        email: storedUser.email,
-        password_hash: storedUser.password_hash,
-        first_name: storedUser.first_name,
-        last_name: storedUser.last_name,
-        role: storedUser.role,
-        subscription_tier: storedUser.subscription_tier,
-        is_active: storedUser.is_active
-      };
+    } else {
+      // No pool - database not connected
+      console.error('❌ NO DATABASE POOL');
+      return res.status(500).json({
+        success: false,
+        error: 'Database not connected'
+      });
     }
 
     if (!user.is_active) {
