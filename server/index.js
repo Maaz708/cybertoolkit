@@ -372,7 +372,6 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 10000;
 
 // Create directories if they don't exist
-const fs = require('fs');
 const requiredDirs = ['uploads', 'server/storage/recovered'];
 requiredDirs.forEach(dir => {
   if (!fs.existsSync(dir)) {
