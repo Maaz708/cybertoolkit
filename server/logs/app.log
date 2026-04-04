@@ -1707,3 +1707,7 @@
 2026-04-04 06:52:22 [[32minfo[39m]: 🚀 CyberToolkit Server Started Successfully
 2026-04-04 06:52:22 [[33mwarn[39m]: Redis error, using memory cache fallback
 2026-04-04 06:52:26 [[32minfo[39m]: Received SIGINT, starting graceful shutdown
+2026-04-04 12:20:19 [[32minfo[39m]: WebSocket server attached to HTTP server
+2026-04-04 12:20:19 [[32minfo[39m]: 🚀 CyberToolkit Server Started Successfully
+2026-04-04 12:20:19 [[33mwarn[39m]: Redis error, using memory cache fallback
+2026-04-04 12:22:47 [[32minfo[39m]: Received SIGINT, starting graceful shutdown

@@ -14,7 +14,8 @@ const initDatabase = () => {
       connectionString: process.env.DATABASE_URL,
       ssl: {
         rejectUnauthorized: false
-      }
+      },
+      family: 4
     });
     console.log('✅ Database connected via DATABASE_URL (Supabase)');
   } catch (error) {
