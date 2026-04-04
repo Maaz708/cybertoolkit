@@ -4,12 +4,13 @@ const jwt = require('jsonwebtoken');
 const { getPool } = require('../utils/database');
 const logger = require('../utils/logger');
 const { validate } = require('../utils/validation');
+const config = require('../config');
 
 // Create router
 const router = express.Router();
 
 // Get database pool
-const pool = getPool();
+let pool = getPool();
 
 // In-memory storage for development (fallback)
 const memoryStorage = {

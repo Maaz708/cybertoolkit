@@ -5,7 +5,7 @@ const { authenticateToken, setUserContext } = require('../middleware/auth');
 const logger = require('../utils/logger');
 
 // Get database pool
-const pool = getPool();
+let pool = getPool();
 
 // In-memory storage for development (fallback)
 const memoryStorage = {
